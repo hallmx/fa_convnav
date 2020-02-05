@@ -1,6 +1,8 @@
 {
   "fa_convnav": {
     "Overview": "/",
-    "Core": "/core"
+    "Core": "/core",
+    "Navigator": "/navigator",
+    "Models": "/models"
   }
 }

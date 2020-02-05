@@ -2,9 +2,13 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"core_test": "00_core.ipynb"}
+index = {"core_test": "00_core.ipynb",
+         "navigator_test": "01_navigator.ipynb",
+         "models_test": "02_models.ipynb"}
 
-modules = ["core.py"]
+modules = ["core.py",
+           "navigator.py",
+           "models.py"]
 
 doc_url = "https://hallmx.github.io/fa_convnav/"
 

@@ -12,6 +12,12 @@ entries:
     - output: web,pdf
       title: Core
       url: /core
+    - output: web,pdf
+      title: Navigator
+      url: /navigator
+    - output: web,pdf
+      title: Models
+      url: /models
     output: web
     title: fa_convnav
   output: web
