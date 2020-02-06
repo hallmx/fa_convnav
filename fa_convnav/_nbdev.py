@@ -3,12 +3,25 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"core_test": "00_core.ipynb",
+         "Convnav": "01_navigator.ipynb",
          "navigator_test": "01_navigator.ipynb",
-         "models_test": "02_models.ipynb"}
+         "vgg": "02_models.ipynb",
+         "alexnet": "02_models.ipynb",
+         "squeezenet": "02_models.ipynb",
+         "resnet": "02_models.ipynb",
+         "densenet": "02_models.ipynb",
+         "xresnet": "02_models.ipynb",
+         "models": "02_models.ipynb",
+         "find_model": "02_models.ipynb",
+         "supported_models": "02_models.ipynb",
+         "get_base_row": "02_models.ipynb",
+         "models_test": "02_models.ipynb",
+         "examples_test": "03_examples00.ipynb"}
 
 modules = ["core.py",
            "navigator.py",
-           "models.py"]
+           "models.py",
+           "examples00.py"]
 
 doc_url = "https://hallmx.github.io/fa_convnav/"
 

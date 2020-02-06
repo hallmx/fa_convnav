@@ -18,6 +18,9 @@ entries:
     - output: web,pdf
       title: Models
       url: /models
+    - output: web,pdf
+      title: Examples00
+      url: /examples00
     output: web
     title: fa_convnav
   output: web

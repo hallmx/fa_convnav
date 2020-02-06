@@ -3,6 +3,7 @@
     "Overview": "/",
     "Core": "/core",
     "Navigator": "/navigator",
-    "Models": "/models"
+    "Models": "/models",
+    "Examples00": "/examples00"
   }
 }
