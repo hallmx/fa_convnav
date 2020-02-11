@@ -1,11 +1,11 @@
 ---
 
-title: ConvNav
+title: Welcome to fa_ConvNav
 
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "CNN viewer "
+summary: "CNN viewer and element selector."
 ---
 <!--
 
@@ -22,12 +22,28 @@ summary: "CNN viewer "
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Documentation</p>
+<p>fa_ConvNav works with the fastai deep learning library. It allows users to create a dataframe representation of a model to explore its structure and layer composition then select layers or groups of layers in divisions, modules or blocks for display and/or using as elements for further model investigation using hooks and callbacks.</p>
+<p>fa_ConvNav supports all the models used for transfer learning in fastai:</p>
+<ul>
+<li><code>VGG</code></li>
+<li><a href="/fa_convnav/models#alexnet"><code>alexnet</code></a></li>
+<li><code>resnets</code></li>
+<li><code>squeezenets</code></li>
+<li><code>densenets</code></li>
+<li><code>xresnets</code></li>
+</ul>
+<blockquote><p>A note about naming. The naming conventions for the elemenst of a CNN is confusing. Here we adhere as closely as possible to the fastai convention.</p>
+</blockquote>
+<ul>
+<li><strong>'layers'</strong> are the processing units of the model, e.g. conv2d, batchnorm2d, maxpool, relu etc</li>
+<li><strong>'modules'</strong> may be layers but also container elements such as cnn.sequential or custom container elements such as basicblocks in esnets or denselayers in densnets. Container modules can contain the entire head or body of the model, or the entire model itself.</li>
+<li><strong>'container'</strong> elements do not do any processing of information themsleves but act as a means of structuring the CNN into functional groupings with a common input and output. </li>
+<li><strong>'elements'</strong> are all the elements that make up the CNN, both container and non-container layers and modules.</li>
+<li><strong>'divisions'</strong> refers to the head or body of the model</li>
+<li><strong>'model'</strong> refers to a trained architecture imported from the fastai library of transfer learning models. </li>
+</ul>
 
 </div>
 </div>
@@ -47,56 +63,81 @@ summary: "CNN viewer "
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="How-to-use">How to use<a class="anchor-link" href="#How-to-use">&#182;</a></h2>
+<h2 id="Create-a-view-ConvNav-dataframe.">Create a view ConvNav dataframe.<a class="anchor-link" href="#Create-a-view-ConvNav-dataframe.">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Type the following:</p>
+<p><code>from fa_convnav.navigator import *</code></p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">core_test</span><span class="p">(</span><span class="s1">&#39;I am imported from 00_core&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>I am imported from 00_core
-</pre>
-</div>
-</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Create a ConvNav object from a fastai learner and the fastai layer_info(learner) method:</p>
+<p><code>cn = Convnav(learner, layer_info(learner)</code></p>
+<p>The model type and name are automatically detected and a dataframe of model information constructed. Convnav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each layer and, where appropriate, module.</p>
+<p>To View a ConvNav dataframe:</p>
+<p><code>cn.view()</code></p>
+<p>or</p>
+<p><code>cn()</code> *prints just the first ten rows</p>
 
 </div>
 </div>
-
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">examples_test</span><span class="p">(</span><span class="s1">&#39;I am from examples00&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Navigating-a-ConvNav-dataframe-and-selecting-model-elements">Navigating a ConvNav dataframe and selecting model elements<a class="anchor-link" href="#Navigating-a-ConvNav-dataframe-and-selecting-model-elements">&#182;</a></h2>
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>ConvNav dataframes can be searched and any element(s) (modules, blocks or layers) can be selected using ConvNav functions.</p>
+<ul>
+<li>Search for elements by module name (c.f. <code>fastai model.named_modules()</code>, module type, layer description etc</li>
+<li>Select modules/layers individually, in blocks or by higher level containers, or by type of layer</li>
+<li>View summaries of model head and body </li>
+</ul>
+<p>Where specific selections are made the selection is dipslayed as a dataframe and the element objects are returned foruse with hooks and callbacks.</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tests">Tests<a class="anchor-link" href="#Tests">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To run test in parallel launch:
+<code>nbdev_test_nbs</code> from the command line 
+or
+<code>!nbdev_test_nbs</code> from inside a jupyter noteb</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Docs">Docs<a class="anchor-link" href="#Docs">&#182;</a></h2><p>This project, it's github repo and documentation were all built using the fastai nbdev literate programming environment for Jupyter Notebooks. Find out more about nbdev and use it in your own project <a href="https://github.com/fastai/nbdev">here</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Contributing">Contributing<a class="anchor-link" href="#Contributing">&#182;</a></h2><p>After you clone this repository, please run nbdev_install_git_hooks in your terminal. This sets up git hooks, which clean up the notebooks to remove the extraneous stuff stored in the notebooks (e.g. which cells you ran) which causes unnecessary merge conflicts.</p>
+<p>Before submitting a PR, check that the local library and notebooks match. The script nbdev_diff_nbs can let you know if there is a difference between the local library and the notebooks.</p>
+<p>If you made a change to the notebooks in one of the exported cells, you can export it to the library with nbdev_build_lib or make fastai2.
+If you made a change to the library, you can export it back to the notebooks with nbdev_update_lib.</p>
+
+</div>
+</div>
 </div>
 </div>
  
