@@ -3,7 +3,12 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"core_test": "00_core.ipynb",
-         "Convnav": "01_navigator.ipynb",
+         "get_row": "01_navigator.ipynb",
+         "find_model": "01_navigator.ipynb",
+         "CNDataFrame": "01_navigator.ipynb",
+         "CNViewer": "01_navigator.ipynb",
+         "CNSearch": "01_navigator.ipynb",
+         "ConvNav": "01_navigator.ipynb",
          "navigator_test": "01_navigator.ipynb",
          "vgg": "02_models.ipynb",
          "alexnet": "02_models.ipynb",
@@ -12,9 +17,6 @@ index = {"core_test": "00_core.ipynb",
          "densenet": "02_models.ipynb",
          "xresnet": "02_models.ipynb",
          "models": "02_models.ipynb",
-         "find_model": "02_models.ipynb",
-         "supported_models": "02_models.ipynb",
-         "get_base_row": "02_models.ipynb",
          "models_test": "02_models.ipynb",
          "examples_test": "03_examples00.ipynb"}
 
