@@ -2,9 +2,9 @@
 > CNN viewer and element selector.
 
 
-fa_ConvNav works with the fastai deep learning library, allowing users to explore convolutional neural network (CNN)structure and composition as well as select layers and modules for display and further investigation using hooks and callbacks.  
+fa_convnav works with the fastai deep learning library, allowing users to explore convolutional neural network (CNN)  structure and composition as well as select modules and layers for further investigation using pytorch hooks and fastai callbacks.  
 
-fa_ConvNav provuides native support for the following types of CNN model: 
+fa_convnav provides native support for the following types of CNN model: 
 
 * VGG
 * alexnet
@@ -13,7 +13,7 @@ fa_ConvNav provuides native support for the following types of CNN model:
 * densenets
 * xresnets
 
-With minor ammendments to the code, fa_ConvNav can be adapted for use with other CNN architectures and custom CNN models.
+With minor ammendments to the code, fa_convnav can be adapted for use with other CNN architectures and custom CNN models.
 
 **A note about naming.** Naming conventions for the elements of a CNN is confusing. Here we adhere as closely as possible to that used by pytorch and fastai. 
 
@@ -23,27 +23,28 @@ With minor ammendments to the code, fa_ConvNav can be adapted for use with other
 *   **'container'** elements do not do any processing of information themselves but functionally group CNN submodules and layers together.
 *   **'elements'** are all the elements that make up the CNN, both container and non-container layers and modules.
 *  **'divisions'** refers to the head or body of a transfer learning model
-*  **'model'** refers to a trained architecture imported from the fastai library or custom architecture with a body and head structure. 
+*  **'model'** refers to a pre-trained architecture imported from the fastai library or custom architecture with a body and head structure. 
+*  **architecture** is an untrained neural network
 
 
 ## Install
 
 
 ```
-pip install fa_ConvNav
+pip install fa_convnav
 ```
 
 
 ## Usage
 
-### fa_ConvNav works with fastai
 
-Installation of the fastai2 library is a prerequiste for fa_ConvNav. Both a fastai learner object and the fastai layer_info(learner) method are required arguments for creating a ConvNav instance. Creating a fastai2 vision project using a CNN and transfer learning is described in the [fastai documentation](https://dev.fast.ai/). 
+
+First create deep learning vision project using a pretrained model downloaded from fastai, a pretrained model with custom head or a custom pytorch model. Creating a fastai2 vision project using a CNN and transfer learning is described in the [fastai documentation](https://dev.fast.ai/) and examples are given in examples00.ipynb and examples 01.ipynb. 
 
 ### Create and view a ConvNav dataframe.
 
 ```
-from fa_ConvNav.navigator import *
+from fa_convnav.navigator import *
 ```
 
 With a fastai learner object `learner`, create a ConvNav instance from `learner` and `layer_info(learner)` method:
@@ -52,7 +53,7 @@ With a fastai learner object `learner`, create a ConvNav instance from `learner`
 cn = ConvNav(learner, layer_info(learner)
 ```
 
-The model type and name are automatically detected and a dataframe of CNN model information built. ConvNav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each layer and, where appropriate, module.
+The model type and name are automatically detected and a dataframe of CNN model information built. ConvNav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.
 
 View a ConvNav dataframe:
 
@@ -70,14 +71,14 @@ cn() *prints just the first ten rows
 
 ConvNav dataframes can be searched and any element(s) (modules, blocks or layers) can be selected using ConvNav functions. 
 
-*   Search for elements by module name (c.f. `fastai model.named_modules()`, module type, layer description etc
+*   Search for elements by module name, module type, layer description etc. Note that module names are those returned by the fastai named_modules() method. 
 *   Select modules/layers individually, in blocks or by higher level containers, or by type of layer
 *   View summaries of model head and body 
 
 For example, 
 
 ```
-cn.search('0.0.2', exact+True)
+cn.search('0.0.2', exact=True)
 ```
 
 Searches for the module with module_name '0.0.2'. 
@@ -86,20 +87,20 @@ Searches for the module with module_name '0.0.2'.
 cn.spread(req='conv', num=8)
 ```
 
-Returns eight conv2d layers equally spaced across the model body.
+Returns eight conv2d layers equally spaced between the first and last modules of the model body.
 
 ```
 cn.divs
 ```
 
-Prints summary information for the major divisions of the model - the body and head. 
+Prints summary information for the model body and head. 
 
-Where specific selections are made the selection is dipslayed as a dataframe and the element objects are returned for use with hooks and callbacks. 
+In most cases module/layer selections are displayed as a dataframe and the associated element objects returned for use with hooks and callbacks. 
 
 ## Examples
 
 
-Examples of fa_convnav being used with fastai2 are given in the examples nbs (examples00.ipynb and examples01.ipynb)
+See the example notebooks, examples00.ipynb and examples01.ipynb, and for further description and code of how to use fa_convnav 
 
 ## Tests
 
