@@ -3,10 +3,6 @@
 __all__ = ['get_row', 'find_model', 'CNDF', 'CNDFView', 'CNDFSearch', 'ConvNav']
 
 # Cell
-#temp fix to model downloading issue
-#!cd /root/.cache/torch/checkpoints && curl -O https://download.pytorch.org/models/densenet121-a639ec97.pth
-
-# Cell
 from .models import models
 from dataclasses import dataclass
 from pandas import DataFrame, option_context
@@ -267,7 +263,7 @@ class CNDFView:
     df.loc[df['Currently'] == '', 'Currently'] = df['current']
     return df
 
-  def view(self, df=None, verbose=3, tight=True, truncate=0, align_cols='left', head=False, return_df=False):
+  def view(self, df=None, verbose=3, tight=True, truncate=0, align_cols='left', top=False, return_df=False):
     "Display dataframe `df` with options and styling"
 
     _df = df if df is not None else self._cndf.copy()
@@ -281,7 +277,7 @@ class CNDFView:
     if verbose != 3: truncate = (10, 4, 0, -10)[verbose-1]
 
     post_msg = ''
-    if head and len(_df) > 10:
+    if top and len(_df) > 10:
       post_msg = f'...{len(_df)-10} more layers'
       _df = _df.iloc[:10]
       tight=False

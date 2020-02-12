@@ -2,65 +2,69 @@
 > CNN viewer and element selector.
 
 
-fa_ConvNav works with the fastai deep learning library. It allows users to create a dataframe representation of a model to explore model structure and composition then select layers or groups of layers in divisions, modules or blocks for display and/or using as elements for further model investigation using hooks and callbacks.  
+fa_ConvNav works with the fastai deep learning library, allowing users to explore convolutional neural network (CNN)structure and composition as well as select layers and modules for display and further investigation using hooks and callbacks.  
 
-fa_ConvNav supports all the models used for transfer learning imported with the fastai library: 
+fa_ConvNav provuides native support for the following types of CNN model: 
 
-*  `VGG`
-* `alexnet`
-* `resnets`
-* `squeezenets`
-* `densenets`
-* `xresnets`
+* VGG
+* alexnet
+* resnets
+* squeezenets
+* densenets
+* xresnets
 
-It is quite possible fa_ConvNav can be made to work using other models, and outside of fastai, with some ammendments to the code but thus far, this has not yet been implemented. 
-<br /><br />
+With minor ammendments to the code, fa_ConvNav can be adapted for use with other CNN architectures and custom CNN models.
 
-**A note about naming.** The naming conventions for the elemenst of a CNN is confusing. Here we adhere as closely as possible to that used by pytorch and fastai. 
+**A note about naming.** Naming conventions for the elements of a CNN is confusing. Here we adhere as closely as possible to that used by pytorch and fastai. 
 
 
 *   **'layers'** are the processing units of the model, e.g. `conv2d`, `batchnorm2d`, `maxpool`, `relu` etc
-*   **'modules'** may be layers but also container elements such as `cnn.sequentia`l or custom container elements such as resnet `Basicblocks` or densnet` _DenseLayers`. Container modules can contain the entire head or body of the model, or the entire model itself.
-*   **'container'** elements do not do any processing of information themsleves but act as a means of structuring the CNN into functional groupings with a common input and output. 
+*   **'modules'** may be layers but also container elements such as `cnn.sequential` or custom container elements such as resnet `BasicBlocks` or densenet `_DenseLayers`. Container modules can also contain the entire head or body of the model, or even the entire model.
+*   **'container'** elements do not do any processing of information themselves but functionally group CNN submodules and layers together.
 *   **'elements'** are all the elements that make up the CNN, both container and non-container layers and modules.
-*  **'divisions'** refers to the head or body of the model
+*  **'divisions'** refers to the head or body of a transfer learning model
 *  **'model'** refers to a trained architecture imported from the fastai library or custom architecture with a body and head structure. 
-
-
-
 
 
 ## Install
 
 
-`pip install fa_ConvNav`
+```
+pip install fa_ConvNav
+```
 
 
 ## Usage
 
-### With fastai
+### fa_ConvNav works with fastai
 
-fa_ComvNav requires fastai2 to be installed as it uses a fatsai2 learner object and the result of a layer_info() method call to obtain the required model imformation. To use, therefore, first create a project with fastai2 and create a `learner` object from a datasource as described in the [fastai documentation](https://dev.fast.ai/). 
+Installation of the fastai2 library is a prerequiste for fa_ConvNav. Both a fastai learner object and the fastai layer_info(learner) method are required arguments for creating a ConvNav instance. Creating a fastai2 vision project using a CNN and transfer learning is described in the [fastai documentation](https://dev.fast.ai/). 
 
 ### Create and view a ConvNav dataframe.
 
-`from fa_ConvNav.navigator import *`
+```
+from fa_ConvNav.navigator import *
+```
 
-Create a ConvNav object from a fastai learner and the fastai layer_info(learner) method:
+With a fastai learner object `learner`, create a ConvNav instance from `learner` and `layer_info(learner)` method:
 
-`cn = ConvNav(learner, layer_info(learner)`
-<br /><br />
+```
+cn = ConvNav(learner, layer_info(learner)
+```
 
-The model type and name are automatically detected and a dataframe of model information constructed. ConvNav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each layer and, where appropriate, module. 
-<br /><br />
+The model type and name are automatically detected and a dataframe of CNN model information built. ConvNav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each layer and, where appropriate, module.
 
 View a ConvNav dataframe:
 
-`cn.view()`
+```
+cn.view()
+```
 
 or 
 
-`cn()`  *prints just the first ten rows
+```
+cn() *prints just the first ten rows
+```  
 
 ### Searching a ConvNav dataframe and selecting model elements
 
@@ -72,24 +76,30 @@ ConvNav dataframes can be searched and any element(s) (modules, blocks or layers
 
 For example, 
 
-`cn.search('0.0.2', exact+True)`
+```
+cn.search('0.0.2', exact+True)
+```
 
 Searches for the module with module_name '0.0.2'. 
 
-`cn.spread(req='conv', num=8)`
+```
+cn.spread(req='conv', num=8)
+```
 
 Returns eight conv2d layers equally spaced across the model body.
 
-`cn.divs`
+```
+cn.divs
+```
 
 Prints summary information for the major divisions of the model - the body and head. 
 
->>Where specific selections are made the selection is dipslayed as a dataframe and the element objects are returned for use with hooks and callbacks. 
+Where specific selections are made the selection is dipslayed as a dataframe and the element objects are returned for use with hooks and callbacks. 
 
 ## Examples
 
 
-Examples of fa_convnav being used with fastai2 are given in examples00.ipynb and examples01.ipynb
+Examples of fa_convnav being used with fastai2 are given in the examples nbs (examples00.ipynb and examples01.ipynb)
 
 ## Tests
 

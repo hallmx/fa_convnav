@@ -25,25 +25,6 @@ summary: "CNN viewer and navigator"
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 30.8M  100 30.8M    0     0  39.0M      0 --:--:-- --:--:-- --:--:-- 38.9M
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
@@ -57,7 +38,7 @@ summary: "CNN viewer and navigator"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_row" class="doc_header"><code>get_row</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L16" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_row</code>(<strong><code>l</code></strong>, <strong><code>m</code></strong>)</p>
+<h4 id="get_row" class="doc_header"><code>get_row</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_row</code>(<strong><code>l</code></strong>, <strong><code>m</code></strong>)</p>
 </blockquote>
 <p>Construct a convnav dataframe row from information in fastai <code>learner.named_modules()</code></p>
 
@@ -81,7 +62,7 @@ summary: "CNN viewer and navigator"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="find_model" class="doc_header"><code>find_model</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L101" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_model</code>(<strong><code>n</code></strong>)</p>
+<h4 id="find_model" class="doc_header"><code>find_model</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L97" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_model</code>(<strong><code>n</code></strong>)</p>
 </blockquote>
 <p>Returns tuple of model type and name (e.g. ('resnet', 'resnet50')) given <code>n</code>, the number of named_modules in <code>learn.model.named_modules()</code></p>
 
@@ -105,7 +86,7 @@ summary: "CNN viewer and navigator"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CNDF" class="doc_header"><code>class</code> <code>CNDF</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L111" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDF</code>(<strong><code>learner</code></strong>:<code>any</code>, <strong><code>layer_info</code></strong>:<code>tuple</code>)</p>
+<h2 id="CNDF" class="doc_header"><code>class</code> <code>CNDF</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L107" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDF</code>(<strong><code>learner</code></strong>:<code>any</code>, <strong><code>layer_info</code></strong>:<code>tuple</code>)</p>
 </blockquote>
 <p>Compile information from fastai <code>learner</code> and 'layer_info(learner)` into a dataframe</p>
 
@@ -121,7 +102,8 @@ summary: "CNN viewer and navigator"
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>CNDF class builds a dataframe with information froma fastai learner and fastai layer_info(learner) mathod. The resulting dataframe, called a CNDF or ConvNav dataframe, represents both the structure and information of the original model and architecture.</p>
 <p>Create a new CNDF dataframe with</p>
-<p><code>cndf = CNDF(learner, layer_info(learner)</code></p>
+
+<pre><code>cndf = CNDF(learner, layer_info(learner)</code></pre>
 <blockquote><p>A CNDF dataframe is automatically created when a ConvNav instance is created and all the following methods are also available from within a ConvNav instance.</p>
 </blockquote>
 
@@ -137,7 +119,7 @@ summary: "CNN viewer and navigator"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="CNDF.supported_models" class="doc_header"><code>CNDF.supported_models</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L249" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDF.supported_models</code>()</p>
+<h4 id="CNDF.supported_models" class="doc_header"><code>CNDF.supported_models</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L245" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDF.supported_models</code>()</p>
 </blockquote>
 <p>Prints list of supported models from 'models' list (imported from models)</p>
 
@@ -256,7 +238,7 @@ summary: "CNN viewer and navigator"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CNDFView" class="doc_header"><code>class</code> <code>CNDFView</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L258" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDFView</code>()</p>
+<h2 id="CNDFView" class="doc_header"><code>class</code> <code>CNDFView</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L254" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDFView</code>()</p>
 </blockquote>
 <p>Class to view a convnav dataframe</p>
 
@@ -277,7 +259,7 @@ summary: "CNN viewer and navigator"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="CNDFView.view" class="doc_header"><code>CNDFView.view</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L270" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDFView.view</code>(<strong><code>df</code></strong>=<em><code>None</code></em>, <strong><code>verbose</code></strong>=<em><code>3</code></em>, <strong><code>tight</code></strong>=<em><code>True</code></em>, <strong><code>truncate</code></strong>=<em><code>0</code></em>, <strong><code>align_cols</code></strong>=<em><code>'left'</code></em>, <strong><code>head</code></strong>=<em><code>False</code></em>, <strong><code>return_df</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="CNDFView.view" class="doc_header"><code>CNDFView.view</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L266" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDFView.view</code>(<strong><code>df</code></strong>=<em><code>None</code></em>, <strong><code>verbose</code></strong>=<em><code>3</code></em>, <strong><code>tight</code></strong>=<em><code>True</code></em>, <strong><code>truncate</code></strong>=<em><code>0</code></em>, <strong><code>align_cols</code></strong>=<em><code>'left'</code></em>, <strong><code>top</code></strong>=<em><code>False</code></em>, <strong><code>return_df</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Display dataframe <code>df</code> with options and styling</p>
 
@@ -297,7 +279,7 @@ summary: "CNN viewer and navigator"
 <li><code>tight</code>: False=normal row spacing; True=tight layout with minimal space between rows (best for large models with many rows to display). The default is True but dfs with fewer than 10 rows are automatically displayed with normal spacing.</li>
 <li><code>truncate</code>: truncate number displayed columns by integer value between -10 and 10. Default=0. Negative values reveal hidden columns. Overidden when the verbose argument is set to a non-default setting.</li>
 <li><code>align_cols</code>: Left (default); right</li>
-<li><code>head</code>: like the pandas head method, displays 1st 10 rows only followed by a count of any undisplayed rows</li>
+<li><code>top</code>: like the pandas head method, displays first 10 rows only followed by a count of undisplayed rows</li>
 <li><code>return_df</code>: return the formatted df to the caller if True. False returns None (default). </li>
 </ul>
 
@@ -308,8 +290,9 @@ summary: "CNN viewer and navigator"
 <div class="text_cell_render border-box-sizing rendered_html">
 <blockquote><p>CNDFView methods are also accessible from Convnav instances.</p>
 </blockquote>
-<p><code>cn = ConvNav(learner, layer_info(learner)</code></p>
-<p><code>cn.view()</code></p>
+
+<pre><code>cn = ConvNav(learner, layer_info(learner)
+cn.view()</code></pre>
 
 </div>
 </div>
@@ -326,7 +309,7 @@ summary: "CNN viewer and navigator"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CNDFSearch" class="doc_header"><code>class</code> <code>CNDFSearch</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L311" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDFSearch</code>()</p>
+<h2 id="CNDFSearch" class="doc_header"><code>class</code> <code>CNDFSearch</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L307" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDFSearch</code>()</p>
 </blockquote>
 <p>Class to search a convnav dataframe, display the results in a dataframe and return the matching layer objects</p>
 
@@ -347,7 +330,7 @@ summary: "CNN viewer and navigator"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="CNDFSearch.search" class="doc_header"><code>CNDFSearch.search</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L346" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDFSearch.search</code>(<strong><code>searchterm</code></strong>, <strong><code>exact</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="CNDFSearch.search" class="doc_header"><code>CNDFSearch.search</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L342" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDFSearch.search</code>(<strong><code>searchterm</code></strong>, <strong><code>exact</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Finds any single or combination of container(s), block(s) or layer(s) in the model_df</p>
 
@@ -382,9 +365,10 @@ summary: "CNN viewer and navigator"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>CNDFSearch methods are also accessible from Convnav instances.</p>
-<p><code>cn = ConvNav(learner, layer_info(learner)</code></p>
-<p><code>seachterm = 128</code></p>
-<p><code>cn.search(searchterm)</code></p>
+
+<pre><code>cn = ConvNav(learner, layer_info(learner)
+seachterm = 128
+cn.search(searchterm)</code></pre>
 
 </div>
 </div>
@@ -401,7 +385,7 @@ summary: "CNN viewer and navigator"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvNav" class="doc_header"><code>class</code> <code>ConvNav</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L386" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvNav</code>(<strong><code>learner</code></strong>, <strong><code>layer_info</code></strong>) :: <a href="/fa_convnav/navigator#CNDF"><code>CNDF</code></a></p>
+<h2 id="ConvNav" class="doc_header"><code>class</code> <code>ConvNav</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L382" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvNav</code>(<strong><code>learner</code></strong>, <strong><code>layer_info</code></strong>) :: <a href="/fa_convnav/navigator#CNDF"><code>CNDF</code></a></p>
 </blockquote>
 <p>Class to view fastai supported CNNs, search and select module(s) and layer(s) for further investigation</p>
 
