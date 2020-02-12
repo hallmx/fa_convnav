@@ -5,9 +5,9 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 index = {"core_test": "00_core.ipynb",
          "get_row": "01_navigator.ipynb",
          "find_model": "01_navigator.ipynb",
-         "CNDataFrame": "01_navigator.ipynb",
-         "CNViewer": "01_navigator.ipynb",
-         "CNSearch": "01_navigator.ipynb",
+         "CNDF": "01_navigator.ipynb",
+         "CNDFView": "01_navigator.ipynb",
+         "CNDFSearch": "01_navigator.ipynb",
          "ConvNav": "01_navigator.ipynb",
          "vgg": "02_models.ipynb",
          "alexnet": "02_models.ipynb",
@@ -15,14 +15,11 @@ index = {"core_test": "00_core.ipynb",
          "resnet": "02_models.ipynb",
          "densenet": "02_models.ipynb",
          "xresnet": "02_models.ipynb",
-         "models": "02_models.ipynb",
-         "models_test": "02_models.ipynb",
-         "examples_test": "03_examples00.ipynb"}
+         "models": "02_models.ipynb"}
 
 modules = ["core.py",
            "navigator.py",
-           "models.py",
-           "examples00.py"]
+           "models.py"]
 
 doc_url = "https://hallmx.github.io/fa_convnav/"
 

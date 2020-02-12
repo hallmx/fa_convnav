@@ -2,9 +2,9 @@
 > CNN viewer and element selector.
 
 
-fa_ConvNav works with the fastai deep learning library. It allows users to create a dataframe representation of a model to explore its structure and layer composition then select layers or groups of layers in divisions, modules or blocks for display and/or using as elements for further model investigation using hooks and callbacks.  
+fa_ConvNav works with the fastai deep learning library. It allows users to create a dataframe representation of a model to explore model structure and composition then select layers or groups of layers in divisions, modules or blocks for display and/or using as elements for further model investigation using hooks and callbacks.  
 
-fa_ConvNav supports all the models used for transfer learning in fastai: 
+fa_ConvNav supports all the models used for transfer learning imported with the fastai library: 
 
 *  `VGG`
 * `alexnet`
@@ -13,41 +13,56 @@ fa_ConvNav supports all the models used for transfer learning in fastai:
 * `densenets`
 * `xresnets`
 
-> A note about naming. The naming conventions for the elemenst of a CNN is confusing. Here we adhere as closely as possible to the fastai convention. 
+It is quite possible fa_ConvNav can be made to work using other models, and outside of fastai, with some ammendments to the code but thus far, this has not yet been implemented. 
+<br /><br />
+
+**A note about naming.** The naming conventions for the elemenst of a CNN is confusing. Here we adhere as closely as possible to that used by pytorch and fastai. 
 
 
-*   **'layers'** are the processing units of the model, e.g. conv2d, batchnorm2d, maxpool, relu etc
-*   **'modules'** may be layers but also container elements such as cnn.sequential or custom container elements such as basicblocks in esnets or denselayers in densnets. Container modules can contain the entire head or body of the model, or the entire model itself.
+*   **'layers'** are the processing units of the model, e.g. `conv2d`, `batchnorm2d`, `maxpool`, `relu` etc
+*   **'modules'** may be layers but also container elements such as `cnn.sequentia`l or custom container elements such as resnet `Basicblocks` or densnet` _DenseLayers`. Container modules can contain the entire head or body of the model, or the entire model itself.
 *   **'container'** elements do not do any processing of information themsleves but act as a means of structuring the CNN into functional groupings with a common input and output. 
 *   **'elements'** are all the elements that make up the CNN, both container and non-container layers and modules.
 *  **'divisions'** refers to the head or body of the model
-*  **'model'** refers to a trained architecture imported from the fastai library of transfer learning models. 
+*  **'model'** refers to a trained architecture imported from the fastai library or custom architecture with a body and head structure. 
+
+
 
 
 
 ## Install
 
-`pip install fa_convnav`
 
-## Create a view ConvNav dataframe.
+`pip install fa_ConvNav`
 
-`from fa_convnav.navigator import *`
+
+## Usage
+
+### With fastai
+
+fa_ComvNav requires fastai2 to be installed as it uses a fatsai2 learner object and the result of a layer_info() method call to obtain the required model imformation. To use, therefore, first create a project with fastai2 and create a `learner` object from a datasource as described in the [fastai documentation](https://dev.fast.ai/). 
+
+### Create and view a ConvNav dataframe.
+
+`from fa_ConvNav.navigator import *`
 
 Create a ConvNav object from a fastai learner and the fastai layer_info(learner) method:
 
-`cn = Convnav(learner, layer_info(learner)`
+`cn = ConvNav(learner, layer_info(learner)`
+<br /><br />
 
-The model type and name are automatically detected and a dataframe of model information constructed. Convnav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each layer and, where appropriate, module. 
+The model type and name are automatically detected and a dataframe of model information constructed. ConvNav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each layer and, where appropriate, module. 
+<br /><br />
 
-To View a ConvNav dataframe:
+View a ConvNav dataframe:
 
 `cn.view()`
 
 or 
 
-`cn()` *prints just the first ten rows
+`cn()`  *prints just the first ten rows
 
-## Navigating a ConvNav dataframe and selecting model elements
+### Searching a ConvNav dataframe and selecting model elements
 
 ConvNav dataframes can be searched and any element(s) (modules, blocks or layers) can be selected using ConvNav functions. 
 
@@ -55,14 +70,33 @@ ConvNav dataframes can be searched and any element(s) (modules, blocks or layers
 *   Select modules/layers individually, in blocks or by higher level containers, or by type of layer
 *   View summaries of model head and body 
 
-Where specific selections are made the selection is dipslayed as a dataframe and the element objects are returned foruse with hooks and callbacks. 
+For example, 
+
+`cn.search('0.0.2', exact+True)`
+
+Searches for the module with module_name '0.0.2'. 
+
+`cn.spread(req='conv', num=8)`
+
+Returns eight conv2d layers equally spaced across the model body.
+
+`cn.divs`
+
+Prints summary information for the major divisions of the model - the body and head. 
+
+>>Where specific selections are made the selection is dipslayed as a dataframe and the element objects are returned for use with hooks and callbacks. 
+
+## Examples
+
+
+Examples of fa_convnav being used with fastai2 are given in examples00.ipynb and examples01.ipynb
 
 ## Tests
 
 To run test in parallel launch:
 `nbdev_test_nbs` from the command line 
 or
-`!nbdev_test_nbs` from inside a jupyter notebook with nbdev installed
+`!nbdev_test_nbs` from inside a Jupyter Notebook with nbdev installed
 
 ## Docs
 

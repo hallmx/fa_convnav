@@ -18,14 +18,15 @@ summary: "CNN viewer and element selector."
 -->
 
 <div class="container" id="notebook-container">
-    
+    {% raw %}
+        
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>fa_ConvNav works with the fastai deep learning library. It allows users to create a dataframe representation of a model to explore its structure and layer composition then select layers or groups of layers in divisions, modules or blocks for display and/or using as elements for further model investigation using hooks and callbacks.</p>
-<p>fa_ConvNav supports all the models used for transfer learning in fastai:</p>
+<p>fa_ConvNav works with the fastai deep learning library. It allows users to create a dataframe representation of a model to explore model structure and composition then select layers or groups of layers in divisions, modules or blocks for display and/or using as elements for further model investigation using hooks and callbacks.</p>
+<p>fa_ConvNav supports all the models used for transfer learning imported with the fastai library:</p>
 <ul>
 <li><code>VGG</code></li>
 <li><a href="/fa_convnav/models#alexnet"><code>alexnet</code></a></li>
@@ -34,15 +35,16 @@ summary: "CNN viewer and element selector."
 <li><code>densenets</code></li>
 <li><code>xresnets</code></li>
 </ul>
-<blockquote><p>A note about naming. The naming conventions for the elemenst of a CNN is confusing. Here we adhere as closely as possible to the fastai convention.</p>
-</blockquote>
+<p>It is quite possible fa_ConvNav can be made to work using other models, and outside of fastai, with some ammendments to the code but thus far, this has not yet been implemented. 
+<br /><br /></p>
+<p><strong>A note about naming.</strong> The naming conventions for the elemenst of a CNN is confusing. Here we adhere as closely as possible to that used by pytorch and fastai.</p>
 <ul>
-<li><strong>'layers'</strong> are the processing units of the model, e.g. conv2d, batchnorm2d, maxpool, relu etc</li>
-<li><strong>'modules'</strong> may be layers but also container elements such as cnn.sequential or custom container elements such as basicblocks in esnets or denselayers in densnets. Container modules can contain the entire head or body of the model, or the entire model itself.</li>
+<li><strong>'layers'</strong> are the processing units of the model, e.g. <code>conv2d</code>, <code>batchnorm2d</code>, <code>maxpool</code>, <code>relu</code> etc</li>
+<li><strong>'modules'</strong> may be layers but also container elements such as <code>cnn.sequentia</code>l or custom container elements such as resnet <code>Basicblocks</code> or densnet<code>_DenseLayers</code>. Container modules can contain the entire head or body of the model, or the entire model itself.</li>
 <li><strong>'container'</strong> elements do not do any processing of information themsleves but act as a means of structuring the CNN into functional groupings with a common input and output. </li>
 <li><strong>'elements'</strong> are all the elements that make up the CNN, both container and non-container layers and modules.</li>
 <li><strong>'divisions'</strong> refers to the head or body of the model</li>
-<li><strong>'model'</strong> refers to a trained architecture imported from the fastai library of transfer learning models. </li>
+<li><strong>'model'</strong> refers to a trained architecture imported from the fastai library or custom architecture with a body and head structure. </li>
 </ul>
 
 </div>
@@ -56,20 +58,33 @@ summary: "CNN viewer and element selector."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>pip install fa_convnav</code></p>
+<p><code>pip install fa_ConvNav</code></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Create-a-view-ConvNav-dataframe.">Create a view ConvNav dataframe.<a class="anchor-link" href="#Create-a-view-ConvNav-dataframe.">&#182;</a></h2>
+<h2 id="Usage">Usage<a class="anchor-link" href="#Usage">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>from fa_convnav.navigator import *</code></p>
+<h3 id="With-fastai">With fastai<a class="anchor-link" href="#With-fastai">&#182;</a></h3><p>fa_ComvNav requires fastai2 to be installed as it uses a fatsai2 learner object and the result of a layer_info() method call to obtain the required model imformation. To use, therefore, first create a project with fastai2 and create a <code>learner</code> object from a datasource as described in the <a href="https://dev.fast.ai/">fastai documentation</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Create-and-view-a-ConvNav-dataframe.">Create and view a ConvNav dataframe.<a class="anchor-link" href="#Create-and-view-a-ConvNav-dataframe.">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>from fa_ConvNav.navigator import *</code></p>
 
 </div>
 </div>
@@ -77,19 +92,21 @@ summary: "CNN viewer and element selector."
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a ConvNav object from a fastai learner and the fastai layer_info(learner) method:</p>
-<p><code>cn = Convnav(learner, layer_info(learner)</code></p>
-<p>The model type and name are automatically detected and a dataframe of model information constructed. Convnav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each layer and, where appropriate, module.</p>
-<p>To View a ConvNav dataframe:</p>
+<p><code>cn = ConvNav(learner, layer_info(learner)</code>
+<br /><br /></p>
+<p>The model type and name are automatically detected and a dataframe of model information constructed. ConvNav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each layer and, where appropriate, module. 
+<br /><br /></p>
+<p>View a ConvNav dataframe:</p>
 <p><code>cn.view()</code></p>
 <p>or</p>
-<p><code>cn()</code> *prints just the first ten rows</p>
+<p><code>cn()</code>  *prints just the first ten rows</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Navigating-a-ConvNav-dataframe-and-selecting-model-elements">Navigating a ConvNav dataframe and selecting model elements<a class="anchor-link" href="#Navigating-a-ConvNav-dataframe-and-selecting-model-elements">&#182;</a></h2>
+<h3 id="Searching-a-ConvNav-dataframe-and-selecting-model-elements">Searching a ConvNav dataframe and selecting model elements<a class="anchor-link" href="#Searching-a-ConvNav-dataframe-and-selecting-model-elements">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -101,7 +118,29 @@ summary: "CNN viewer and element selector."
 <li>Select modules/layers individually, in blocks or by higher level containers, or by type of layer</li>
 <li>View summaries of model head and body </li>
 </ul>
-<p>Where specific selections are made the selection is dipslayed as a dataframe and the element objects are returned foruse with hooks and callbacks.</p>
+<p>For example,</p>
+<p><code>cn.search('0.0.2', exact+True)</code></p>
+<p>Searches for the module with module_name '0.0.2'.</p>
+<p><code>cn.spread(req='conv', num=8)</code></p>
+<p>Returns eight conv2d layers equally spaced across the model body.</p>
+<p><code>cn.divs</code></p>
+<p>Prints summary information for the major divisions of the model - the body and head.</p>
+<blockquote><blockquote><p>Where specific selections are made the selection is dipslayed as a dataframe and the element objects are returned for use with hooks and callbacks.</p>
+</blockquote>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Examples">Examples<a class="anchor-link" href="#Examples">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Examples of fa_convnav being used with fastai2 are given in examples00.ipynb and examples01.ipynb</p>
 
 </div>
 </div>
@@ -117,7 +156,7 @@ summary: "CNN viewer and element selector."
 <p>To run test in parallel launch:
 <code>nbdev_test_nbs</code> from the command line 
 or
-<code>!nbdev_test_nbs</code> from inside a jupyter noteb</p>
+<code>!nbdev_test_nbs</code> from inside a Jupyter Notebook with nbdev installed</p>
 
 </div>
 </div>
@@ -139,6 +178,7 @@ If you made a change to the library, you can export it back to the notebooks wit
 </div>
 </div>
 </div>
+    {% endraw %}
 </div>
  
 
