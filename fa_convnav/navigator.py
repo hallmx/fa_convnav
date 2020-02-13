@@ -10,7 +10,7 @@ from pandas import DataFrame, option_context, read_pickle
 
 # Cell
 def get_row(l, m):
-  "Construct dataframe row from `l` (`Learner.named_modules()` layer) and `m` (model)"
+  "Construct dataframe row from `l` (Learner.named_modules() layer) and `m` (model)"
 
   # create generic row data from `l` (model.named_module() layer) and `m` (model_type)
   lyr_name = l[0]
@@ -69,11 +69,11 @@ def get_row(l, m):
     raise Exception("Model type not recognised")
 
   return {
-      'Layer_name': lyr_name,
+      'Module_name': lyr_name,
       'Model': tch_cls if lyr_name == '' else '',
       'Division': div,
-      'Module': mod,
-      'Block': blk,
+      'Container_child': mod,
+      'Container_block': blk,
       'Layer_description': lyr,
       'Torch_class': tch_cls_substr,
       'Output_dimensions': '',
@@ -81,21 +81,21 @@ def get_row(l, m):
       'Trainable': '',
       'Currently': '',
       'div_id': ln_split[0] if ln_n_splits >0 else '',
-      'mod_id': ln_split[1] if ln_n_splits >1 else '',
+      'chd_id': ln_split[1] if ln_n_splits >1 else '',
       'blk_id': ln_split[2] if ln_n_splits >2 else '',
       'lyr_id': ln_split[3] if ln_n_splits >3 else '',
       'tch_cls': tch_cls,
       'out_dim': '',
       'current': '',
       'lyr_blk': '',
-      'lyr_mod': '',
-      'blk_mod': '',
+      'lyr_chd': '',
+      'blk_chd': '',
       'lyr_obj': lyr_obj
       }
 
 # Cell
 def find_model(n):
-    "Returns tuple of model type and name (e.g. ('resnet', 'resnet50')) given `n`, the number of named_modules in `Learner.model.named_modules()`"
+    "Returns tuple of model type and name (e.g. ('resnet', 'resnet50')) given `n`, the number of named_modules in Learner.model.named_modules()"
     for d in models:
       match = [(k, m) for k, v in d.items() for m, l in v if l == n]
       if match != []: break
@@ -105,7 +105,7 @@ def find_model(n):
 # Cell
 @dataclass
 class CNDF:
-  "Compile information from fastai `learner` and 'layer_info(learner)` into a dataframe"
+  "Compile information from fastai `Learner.model` and 'layer_info(Learner)` into a dataframe"
   learner: any
 
   def sz_tn(t):
@@ -130,8 +130,8 @@ class CNDF:
     # remove layer descriptions from container rows
     df.at[0, 'Layer_description'] = ''
     df.loc[(df['Division'].str.contains('Sequential')) | \
-          (df['Module'] == 'Sequential') | \
-          (df['Module'] == 'AdaptiveConcatPool2d'), 'Layer_description'] = ''
+          (df['Container_child'] == 'Sequential') | \
+          (df['Container_child'] == 'AdaptiveConcatPool2d'), 'Layer_description'] = ''
 
     # add layer info (`o`, `p`, `t`, and `Frozen`/`Unfrozen`) from layer_info to all non-container rows
     info_gen = ((_, p, t, self.add_bs(o)) for _, p, t, o in info) # info_gen = generator
@@ -148,9 +148,9 @@ class CNDF:
     # backfill container rows with summary layer information and layer/block counts
     # 1.set up index stores and counters
     m, b  = 0, 0
-    layer_count = [0, 0, 0]                                       # layers in [divs, modules, blocks]
-    block_count = [0, 0]                                          # blocks in [divs, modules]
-    frozen_count=[[0,0], [0, 0], [0,0]]                           # [Frozen, Unfrozen] layers in [divs, modules, blocks],
+    layer_count = [0, 0, 0]                                       # layers in [div, child, blocks]
+    block_count = [0, 0]                                          # blocks in [div, childs]
+    frozen_count=[[0,0], [0, 0], [0,0]]                           # [Frozen, Unfrozen] layers in [div, child, blocks],
 
     # 2.iterate over rows, incrementing counters with each new row
     for row in df.itertuples():
@@ -163,16 +163,16 @@ class CNDF:
         for i in [0,1,2]: layer_count[i] += 1
 
       # backfill 'Module' container rows with layer_info and block and layer counts
-      if (row.Output_dimensions == '' and row.Module != '') or row.Layer_name == '1':
+      if (row.Output_dimensions == '' and row.Container_child != '') or row.Module_name == '1':
         m = idx if m == 0 else m
         df.at[m, 'out_dim'] = df.at[idx-1, 'Output_dimensions']
-        df.at[m, ['current', 'blk_mod', 'lyr_mod']] = self.get_frozen(frozen_count[1]), block_count[1], layer_count[1]
+        df.at[m, ['current', 'blk_chd', 'lyr_chd']] = self.get_frozen(frozen_count[1]), block_count[1], layer_count[1]
         m = idx
         layer_count[1] = block_count[1] = 0
         for i in [0, 1]: frozen_count[1][i] = 0
 
       # backfill 'Block' container rows with layer_info and layer counts
-      if (row.Output_dimensions == '' and row.Block != '') or row.Layer_name == '1':
+      if (row.Output_dimensions == '' and row.Container_block != '') or row.Module_name == '1':
         b = idx if b == 0 else b
         df.at[b, 'out_dim'] = df.at[idx-1, 'Output_dimensions'] or df.at[idx-2, 'Output_dimensions']
         df.at[b, ['current', 'lyr_blk']] = self.get_frozen(frozen_count[2]), layer_count[2]
@@ -182,11 +182,11 @@ class CNDF:
         for i in [0, 1]: frozen_count[2][i] = 0
 
     # 3.backfill division container rows with summary layer_info and block and layer counts
-    div0_idx = df[df['Layer_name'] == '0'].index.tolist()[0]
-    div1_idx = df[df['Layer_name'] == '1'].index.tolist()[0]
+    div0_idx = df[df['Module_name'] == '0'].index.tolist()[0]
+    div1_idx = df[df['Module_name'] == '1'].index.tolist()[0]
 
     df.at[div0_idx, 'out_dim'] = df.at[div1_idx-1, 'Output_dimensions'] or df.at[div1_idx-2, 'Output_dimensions']
-    df.at[div0_idx, ['current', 'lyr_mod', 'blk_mod']] = self.get_frozen(frozen_count[0]), layer_count[0], block_count[0]
+    df.at[div0_idx, ['current', 'lyr_chd', 'blk_chd']] = self.get_frozen(frozen_count[0]), layer_count[0], block_count[0]
 
     df.at[div1_idx, 'out_dim'] = df.iloc[-1]['Output_dimensions']
 
@@ -258,14 +258,14 @@ class CNDFView:
   def copy_layerinfo(self, df):
     "Copy layer information and block/layer counts over from silent columns to displayed columns"
     df.loc[df['Division'] == '', 'Division'] = df['div_id']
-    df.loc[df['Module'] == '', 'Module'] = df['mod_id']
-    df.loc[df['Block'] == '', 'Block'] = df['blk_id']
+    df.loc[df['Container_child'] == '', 'Container_child'] = df['chd_id']
+    df.loc[df['Container_block'] == '', 'Container_block'] = df['blk_id']
     df.loc[df['Output_dimensions'] == '', 'Output_dimensions'] = df['out_dim']
     df.loc[df['Currently'] == '', 'Currently'] = df['current']
     return df
 
   def check_args(self, df, truncate, verbose):
-    assert type(df) == DataFrame and 'Layer_name' in df.columns, "Not a valid convnav dataframe"
+    assert type(df) == DataFrame and 'Module_name' in df.columns, "Not a valid convnav dataframe"
     assert isinstance(truncate, int) and -10 <= truncate <= 10, f"Argument 'truncate' must be an integer between -10 (show more cols) and +10 (show fewer cols)"
     assert isinstance(verbose, int) and 1 <= verbose <= 5, f"Argument verbose must be 1 2 or 3 "
 
@@ -334,7 +334,7 @@ class CNDFSearch:
       #select rows in df where df[col] ==/contains searchterm string (exact=True/False)
       #returns results after first matches are found in a column (remining columns not searched)
       searchterm = searchterm.strip(' \.')
-      cols = {'Layer_name', 'Torch_class', 'Division', 'Module', 'Block', 'Layer_description'}
+      cols = {'Module_name', 'Torch_class', 'Division', 'Container_child', 'Container_block', 'Layer_description'}
       if exact:
         for col in cols:
           x = df[df[col] == searchterm].copy()
@@ -367,14 +367,14 @@ class CNDFSearch:
       _df = DataFrame()
       for col, s in searchterm.items():
         new_df = self._find_layer(df, {col:s}, exact)
-        _df = pd.concat((_df, new_df), axis=0, ignore_index=False).drop_duplicates('Layer_name')
+        _df = pd.concat((_df, new_df), axis=0, ignore_index=False).drop_duplicates('Module_name')
 
     elif isinstance(searchterm, list):
       #concatenate successive search results (logical 'OR') in list
       _df = DataFrame()
       for s in searchterm:
         new_df = self._find_layer(df, s, exact)
-        _df = pd.concat((_df, new_df), axis=0, ignore_index=False).drop_duplicates('Layer_name')
+        _df = pd.concat((_df, new_df), axis=0, ignore_index=False).drop_duplicates('Module_name')
 
     elif isinstance(searchterm, tuple):
       #recursively call find_layer on _df to logical 'AND' successive search results in tuple
@@ -413,9 +413,9 @@ class ConvNav(CNDF, CNDFSearch, CNDFView):
 
   @property
   def head(self):
-    "Print `model` head summary info and layers"
+    "Print `model` head summary info and modules"
     df = self._cndf.copy()
-    df = df[df['Layer_name'].str.startswith('1')]
+    df = df[df['Module_name'].str.startswith('1')]
     if not df.empty:
       res = f"{self.model_type.capitalize()}: {self.model_name.capitalize()}\n"
       res += f"Input shape: {self._cndf.iloc[1]['out_dim']} (bs, filt, h, w)\n"
@@ -428,9 +428,9 @@ class ConvNav(CNDF, CNDFSearch, CNDFView):
 
   @property
   def body(self):
-    "Print `model` body summary info and layers"
+    "Print `model` body summary info and modules"
     df = self._cndf.copy()
-    df = df.loc[df['Layer_name'].str.startswith('0')]
+    df = df.loc[df['Module_name'].str.startswith('0')]
     if not df.empty:
       res = f"{self.model_type.capitalize()}: {self.model_name.capitalize()}\n"
       res += f"Input shape: {self.input_sizes} (bs, ch, h, w)\n"
@@ -445,13 +445,13 @@ class ConvNav(CNDF, CNDFSearch, CNDFView):
   @property
   def divs(self):
     "Print Summary information from `model` head and body"
-    df = self._cndf[(self._cndf['Layer_name'] == '0') | (self._cndf['Layer_name'] == '1')].copy()
+    df = self._cndf[(self._cndf['Module_name'] == '0') | (self._cndf['Module_name'] == '1')].copy()
 
     for i in range(2):
       df_div = self._cndf.loc[self._cndf['div_id'] == str(i)].copy()
       df.iloc[i]['Model'] = self.model_name
-      df.iloc[i]['Module'] = len(df_div[df_div['Module'] != ''])
-      df.iloc[i]['Block'] = len(df_div[df_div['Block'] != ''])
+      df.iloc[i]['Container_child'] = len(df_div[df_div['Container_child'] != ''])
+      df.iloc[i]['Container_block'] = len(df_div[df_div['Container_block'] != ''])
       df.iloc[i]['Layer_description'] = len(df_div[df_div['Layer_description'] != ''])
       params = df_div['Parameters'].values
       params_summed = sum(filter(lambda i: isinstance(i, int), params))
@@ -460,7 +460,7 @@ class ConvNav(CNDF, CNDFSearch, CNDFView):
     df['Output_dimensions'] = df['out_dim']
     df.iloc[0]['Currently'] = df.iloc[0]['current']
 
-    df = df.rename(columns={'Module': 'Child modules', 'Block': 'Blocks', 'Layer_description': 'Layers'})
+    df = df.rename(columns={'Container_child': 'Child modules', 'Container_block': 'Blocks', 'Layer_description': 'Layers'})
     print(f"{self.model_name.capitalize()}\nDivisions:  body (0), head (1)\n")
     self.view(df, tight=False)
 
