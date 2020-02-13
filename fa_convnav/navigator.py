@@ -3,10 +3,10 @@
 __all__ = ['get_row', 'find_model', 'CNDF', 'CNDFView', 'CNDFSearch', 'ConvNav']
 
 # Cell
+import gzip, pickle
 from .models import models
 from dataclasses import dataclass
-from pandas import DataFrame, option_context
-
+from pandas import DataFrame, option_context, read_pickle
 
 # Cell
 def get_row(l, m):
@@ -107,19 +107,20 @@ def find_model(n):
 class CNDF:
   "Compile information from fastai `learner` and 'layer_info(learner)` into a dataframe"
   learner: any
-  layer_info: tuple
 
   def sz_tn(t):
     "Adds batch size `bs` to a list if layer dimensions `t`"
     return [self.bs if i==0 else s for i, s in enumerate(t)]
 
   def __post_init__(self):
+    assert hasattr(self.learner, 'model'), "Invalid learner: no 'model' attribute"
     self.model = self.learner.model                                         # fastai `learner.model` object
     self.layers = list(self.learner.model.named_modules())                  # fastai `named_modules` method
     self.num_layers = len(self.layers)
     self.model_type, self.model_name = find_model(self.num_layers)
 
-    inp, info = self.layer_info
+    xb = self.learner.dls.train.one_batch()[:self.learner.dls.train.n_inp]
+    inp, info = layer_info(self.learner.model, *xb)
     self.inp_sz = [sz for sz in inp[0].shape]                          # `inp_sz` =  (bs, ch, h, w)
     self.bs = self.inp_sz[0]
 
@@ -263,18 +264,22 @@ class CNDFView:
     df.loc[df['Currently'] == '', 'Currently'] = df['current']
     return df
 
-  def view(self, df=None, verbose=3, tight=True, truncate=0, align_cols='left', top=False, return_df=False):
+  def check_args(self, df, truncate, verbose):
+    assert type(df) == DataFrame and 'Layer_name' in df.columns, "Not a valid convnav dataframe"
+    assert isinstance(truncate, int) and -10 <= truncate <= 10, f"Argument 'truncate' must be an integer between -10 (show more cols) and +10 (show fewer cols)"
+    assert isinstance(verbose, int) and 1 <= verbose <= 5, f"Argument verbose must be 1 2 or 3 "
+
+  def view(self, df=None, verbose=3, tight=True, truncate=0, align_cols='left', top=False, show=True, return_df=False):
     "Display dataframe `df` with options and styling"
 
+    if not show: return None
     _df = df if df is not None else self._cndf.copy()
+    self.check_args(_df, truncate, verbose)
 
-    assert type(_df) == DataFrame and 'Layer_name' in _df.columns, 'Not a valid convnav dataframe'
-    assert isinstance(truncate, int) and -10 <= truncate <= 10, f"Argument 'truncate' must be an integer between -10 (show more cols) and +10 (show fewer cols)"
-    assert isinstance(verbose, int) and 1 <= verbose <= 4, f"Argument verbose must be 1 2 or 3 "
     if not isinstance(tight, bool): tight = True
-
     if len(_df) < 10: tight = False
-    if verbose != 3: truncate = (10, 4, 0, -10)[verbose-1]
+    if verbose != 3: truncate = (10, 4, 0, 0, -10)[verbose-1]
+    if verbose == 4: _df = self.copy_layerinfo(_df)
 
     post_msg = ''
     if top and len(_df) > 10:
@@ -282,21 +287,19 @@ class CNDFView:
       _df = _df.iloc[:10]
       tight=False
 
-    _df.index.name = 'Index'
-
     if len(_df) == 0:
       print('No data to display')
       return None
 
     with option_context("display.max_rows", 1000):
+      _df.index.name = 'Index'
       _df_styled = _df.iloc[:,:-(11+truncate)].style.set_properties(**{'text-align': align_cols})
       if tight:
         display(_df_styled)
       else:
         display(_df.iloc[:,:-(11+truncate)])
     print(post_msg)
-
-    if return_df: return(_df)
+    if return_df and df is not None: return(_df)
 
   def copy_view(self, df, **kwargs):
     "Copy over layer information then call `view` to display dataframe"
@@ -307,24 +310,29 @@ class CNDFView:
 class CNDFSearch:
   "Class to search a convnav dataframe, display the results in a dataframe and return the matching layer objects"
 
-  def find_layer(self, df, searchterm, exact):
+  def _find_layer(self, df, searchterm, exact):
     "Searches `df` for `searchterm`, returning exact matches only if `exact=True` otherwise any match"
 
     if isinstance(searchterm, int):
-      assert searchterm >= 0 and searchterm <= len(self._cndf), f'Layer ID out of range: min 0, max {len(df)}'
+      assert searchterm >= 0 and searchterm <= len(df), f'Layer ID out of range: min 0, max {len(df)}'
+      #select 'df' row using index from 'searchterm'
       x = df.iloc[searchterm].copy()
       x = DataFrame(x).transpose()
       return x
 
+    #if searchterm is a float assume it is a layer name (i.e. format 0.0.1) and convert to string
     if isinstance(searchterm, float): searchterm = str(searchterm)
 
     if isinstance(searchterm, dict):
+      #select rows matching the conditional df[key] ==/contains value (exact=True/false) for dict
       for col, s in searchterm.items():
         assert col in df.columns, f'{col} not a valid column identifier. Valid column names are {df.columns}'
         return df[df[col] == s].copy() if exact else df[df[col].str.contains(s)].copy()
       return x
 
     if isinstance(searchterm, str):
+      #select rows in df where df[col] ==/contains searchterm string (exact=True/False)
+      #returns results after first matches are found in a column (remining columns not searched)
       searchterm = searchterm.strip(' \.')
       cols = {'Layer_name', 'Torch_class', 'Division', 'Module', 'Block', 'Layer_description'}
       if exact:
@@ -339,50 +347,57 @@ class CNDFSearch:
 
     assert True, 'Unrecognizable searchterm'
 
-  def search(self, searchterm, exact=True):
+  def search(self, searchterm, df=None, exact=True, show=True):
     "Finds any single or combination of container(s), block(s) or layer(s) in the model_df"
-
-    _df = copy(self._cndf)
+    if df is not None:
+      _df = df.copy()
+    else:
+       _df = df = self._cndf.copy()
 
     if isinstance(searchterm, float): searchterm = str(searchterm)
 
     if isinstance(searchterm, int):
-      _df = self.find_layer(_df, searchterm, True)
+      _df = self._find_layer(_df, searchterm, True)
 
     elif isinstance(searchterm, str):
-      _df = self.find_layer(_df, searchterm, exact)
+      _df = self._find_layer(_df, searchterm, exact)
 
     elif isinstance(searchterm, dict):
+      #concatenate successive search results (logical 'OR') for series of dicts
       _df = DataFrame()
       for col, s in searchterm.items():
-        new_df = self.find_layer(self._cndf, {col:s}, exact)
+        new_df = self._find_layer(df, {col:s}, exact)
         _df = pd.concat((_df, new_df), axis=0, ignore_index=False).drop_duplicates('Layer_name')
 
     elif isinstance(searchterm, list):
+      #concatenate successive search results (logical 'OR') in list
       _df = DataFrame()
       for s in searchterm:
-        new_df = self.find_layer(self._cndf, s, exact)
+        new_df = self._find_layer(df, s, exact)
         _df = pd.concat((_df, new_df), axis=0, ignore_index=False).drop_duplicates('Layer_name')
 
     elif isinstance(searchterm, tuple):
+      #recursively call find_layer on _df to logical 'AND' successive search results in tuple
       for s in searchterm:
-        _df = self.find_layer(_df, s, exact)
+        _df = self._find_layer(_df, s, exact)
 
     else: assert True, 'Unrecognizable searchterm'
 
+    #show matches and return corresponding modules
     if _df is not None and not _df.empty:
-      print(f'{len(_df)} layers found matching searchterm(s): {searchterm}\n')
-      self.view(df=_df)
+      if show:
+        print(f'{len(_df)} layers found matching searchterm(s): {searchterm}\n')
+        self.view(df=_df)
       return _df['lyr_obj'].tolist()
     else:
-      print(f'No matches for searchterm(s): {searchterm}\n')
+      if show: print(f'No matches for searchterm(s): {searchterm}\n')
       return None
 
 # Cell
 class ConvNav(CNDF, CNDFSearch, CNDFView):
   "Class to view fastai supported CNNs, search and select module(s) and layer(s) for further investigation"
-  def __init__(self, learner, layer_info):
-    super().__init__(learner, layer_info )
+  def __init__(self, learner):
+    super().__init__(learner)
 
   def __len__(self):
     return len(self._cndf)

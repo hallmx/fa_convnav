@@ -1,4 +1,4 @@
-# Welcome to fa_ConvNav
+# Welcome to fa_convnav
 > CNN viewer and element selector.
 
 
