@@ -40,7 +40,7 @@ summary: "CNN viewer and navigator"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="get_row" class="doc_header"><code>get_row</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_row</code>(<strong><code>l</code></strong>, <strong><code>m</code></strong>)</p>
 </blockquote>
-<p>Construct a convnav dataframe row from information in fastai <code>learner.named_modules()</code></p>
+<p>Construct dataframe row from <code>l</code> (<code>Learner.named_modules()</code> layer) and <code>m</code> (model)</p>
 
 </div>
 
@@ -64,7 +64,7 @@ summary: "CNN viewer and navigator"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="find_model" class="doc_header"><code>find_model</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L97" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_model</code>(<strong><code>n</code></strong>)</p>
 </blockquote>
-<p>Returns tuple of model type and name (e.g. ('resnet', 'resnet50')) given <code>n</code>, the number of named_modules in <code>learn.model.named_modules()</code></p>
+<p>Returns tuple of model type and name (e.g. ('resnet', 'resnet50')) given <code>n</code>, the number of named_modules in <code>Learner.model.named_modules()</code></p>
 
 </div>
 
@@ -100,11 +100,10 @@ summary: "CNN viewer and navigator"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>CNDF class builds a dataframe with information froma fastai learner and fastai layer_info(learner) mathod. The resulting dataframe, called a CNDF or ConvNav dataframe, represents both the structure and information of the original model and architecture.</p>
-<p>CNDF is a parent class of ConvNav and a CNDF dataframe is automatically built when a new ConvNav object is instantiatedand for most use cases CNDF dataframes should be built this way. However, if there is a need to build a CNDF dataframe in isolation use:</p>
+<p>CNDF class builds a dataframe using fastai Learner. The resulting dataframe, called a CNDF dataframe, represents both the structure and information of the original Learner.model.</p>
+<p>CNDF is a parent class of ConvNav and a CNDF dataframe is automatically built when a new ConvNav object is instantiated and for most use cases CNDF dataframes should be built this way. However, if there is a need to build a CNDF dataframe in isolation use:</p>
 
 <pre><code>cndf = CNDF(learner)</code></pre>
-<p>This exposes the following methods.</p>
 
 </div>
 </div>
@@ -215,7 +214,7 @@ summary: "CNN viewer and navigator"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="CNDF.model_info" class="doc_header"><code>CNDF.model_info</code><a href="" class="source_link" style="float:right">[source]</a></h4><p>Return an info string derived from<code>learn.model</code></p>
+<h4 id="CNDF.model_info" class="doc_header"><code>CNDF.model_info</code><a href="" class="source_link" style="float:right">[source]</a></h4><p>Return an info string derived from<code>Learner.model</code></p>
 
 </div>
 
@@ -238,7 +237,7 @@ summary: "CNN viewer and navigator"
     <span class="n">test_learner</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 <span class="n">cndf_test</span> <span class="o">=</span> <span class="n">CNDF</span><span class="p">(</span><span class="n">test_learner</span><span class="p">)</span>
 <span class="c1">#tests</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">cndf_test</span><span class="o">.</span><span class="n">_cndf</span><span class="p">),</span> <span class="n">DataFrame</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">cndf_test</span><span class="o">.</span><span class="n">_cndf</span><span class="p">),</span> <span class="n">DataFrame</span><span class="p">)</span> 
 <span class="n">test_eq</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cndf_test</span><span class="o">.</span><span class="n">_cndf</span><span class="p">),</span> <span class="mi">79</span><span class="p">)</span> <span class="c1">#rows</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cndf_test</span><span class="o">.</span><span class="n">_cndf</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="mi">22</span><span class="p">)</span> <span class="c1">#columns</span>
 <span class="k">del</span><span class="p">(</span><span class="n">cndf_test</span><span class="p">)</span>
@@ -263,7 +262,7 @@ summary: "CNN viewer and navigator"
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="CNDFView" class="doc_header"><code>class</code> <code>CNDFView</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L255" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDFView</code>()</p>
 </blockquote>
-<p>Class to view a convnav dataframe</p>
+<p>Class to view a CNDF dataframe</p>
 
 </div>
 
@@ -296,14 +295,14 @@ summary: "CNN viewer and navigator"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Method to format and display a ConvNav dataframe. Defaults to displaying the instance dataframe built by CNDF but will accept a valid ConvNav dataframe <code>df</code> as an argument. Other arguments:</p>
+<p>Method to format and display a CNDF dataframe. Defaults to displaying the instance dataframe built by CNDF but will accept a valid CNDF dataframe <code>df</code> as an argument. Other arguments:</p>
 <ul>
-<li><code>verbose</code>: 1=Index and Layer_name columns only; 2=Model structure; 3=Model Structure and layer_info (output dims, params and frozen/unfrozen) (default); 4=includes normally hidden columns.  </li>
-<li><code>tight</code>: False=normal row spacing; True=tight layout with minimal space between rows (best for large models with many rows to display). The default is True but dfs with fewer than 10 rows are automatically displayed with normal spacing.</li>
-<li><code>truncate</code>: truncate number displayed columns by integer value between -10 and 10. Default=0. Negative values reveal hidden columns. Overidden when the verbose argument is set to a non-default setting.</li>
-<li><code>align_cols</code>: Left (default); right</li>
+<li><code>verbose</code>: 1 = Index and Layer_name columns only; 2 = Model structure; 3 = Model Structure and layer_info (output dims, params and frozen/unfrozen) (default);  4 = fill in container columns with layer_info; 5 = expose hidden columns.</li>
+<li><code>tight</code>: False = normal row spacing; True = tight layout with minimal space between rows (best for large models with many rows to display). The default is True but dataframes with fewer than 10 rows are automatically displayed with normal spacing.</li>
+<li><code>truncate</code>: truncate number displayed columns by integer value between -10 and 10. 0 = default. Negative values reveal hidden columns. Overidden when the verbose argument is set to a non-default setting.</li>
+<li><code>align_cols</code>: 'left' (default); 'right' alignment of column data</li>
 <li><code>top</code>: display first 10 rows only followed by a count of undisplayed rows</li>
-<li><code>show</code>: True (default)/false show/hide cell output.</li>
+<li><code>show</code>: True (default)/False show/hide cell output.</li>
 <li><code>return_df</code>: return the formatted df to the caller if True. False returns None (default). </li>
 </ul>
 
@@ -324,7 +323,7 @@ summary: "CNN viewer and navigator"
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="CNDFSearch" class="doc_header"><code>class</code> <code>CNDFSearch</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L310" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDFSearch</code>()</p>
 </blockquote>
-<p>Class to search a convnav dataframe, display the results in a dataframe and return the matching layer objects</p>
+<p>Class to search a CNDF dataframe, display the results in a dataframe and returns matching module object(s)</p>
 
 </div>
 
@@ -345,7 +344,7 @@ summary: "CNN viewer and navigator"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="CNDFSearch.search" class="doc_header"><code>CNDFSearch.search</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L350" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDFSearch.search</code>(<strong><code>searchterm</code></strong>, <strong><code>df</code></strong>=<em><code>None</code></em>, <strong><code>exact</code></strong>=<em><code>True</code></em>, <strong><code>show</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
-<p>Finds any single or combination of container(s), block(s) or layer(s) in the model_df</p>
+<p>Finds any single or combination of container(s), block(s) or layer(s) in the <code>self._cndf</code> or <code>df</code></p>
 
 </div>
 

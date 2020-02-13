@@ -10,7 +10,7 @@ from pandas import DataFrame, option_context, read_pickle
 
 # Cell
 def get_row(l, m):
-  "Construct a convnav dataframe row from information in fastai `learner.named_modules()`"
+  "Construct dataframe row from `l` (`Learner.named_modules()` layer) and `m` (model)"
 
   # create generic row data from `l` (model.named_module() layer) and `m` (model_type)
   lyr_name = l[0]
@@ -95,7 +95,7 @@ def get_row(l, m):
 
 # Cell
 def find_model(n):
-    "Returns tuple of model type and name (e.g. ('resnet', 'resnet50')) given `n`, the number of named_modules in `learn.model.named_modules()`"
+    "Returns tuple of model type and name (e.g. ('resnet', 'resnet50')) given `n`, the number of named_modules in `Learner.model.named_modules()`"
     for d in models:
       match = [(k, m) for k, v in d.items() for m, l in v if l == n]
       if match != []: break
@@ -114,7 +114,7 @@ class CNDF:
 
   def __post_init__(self):
     assert hasattr(self.learner, 'model'), "Invalid learner: no 'model' attribute"
-    self.model = self.learner.model                                         # fastai `learner.model` object
+    self.model = self.learner.model                                         # fastai `Learner.model` object
     self.layers = list(self.learner.model.named_modules())                  # fastai `named_modules` method
     self.num_layers = len(self.layers)
     self.model_type, self.model_name = find_model(self.num_layers)
@@ -231,7 +231,7 @@ class CNDF:
 
   @property
   def model_info(self):
-    "Return an info string derived from`learn.model`"
+    "Return an info string derived from`Learner.model`"
     res = f"{self.model_type.capitalize()}: {self.model_name.capitalize()}\n"
     res += f"Input shape: {self.inp_sz} (bs, ch, h, w)\n"
     res += f"Output features: {self.output_dimensions} (bs, classes)\n"
@@ -253,7 +253,7 @@ class CNDF:
 
 # Cell
 class CNDFView:
-  "Class to view a convnav dataframe"
+  "Class to view a CNDF dataframe"
 
   def copy_layerinfo(self, df):
     "Copy layer information and block/layer counts over from silent columns to displayed columns"
@@ -308,7 +308,7 @@ class CNDFView:
 
 # Cell
 class CNDFSearch:
-  "Class to search a convnav dataframe, display the results in a dataframe and return the matching layer objects"
+  "Class to search a CNDF dataframe, display the results in a dataframe and returns matching module object(s)"
 
   def _find_layer(self, df, searchterm, exact):
     "Searches `df` for `searchterm`, returning exact matches only if `exact=True` otherwise any match"
@@ -348,7 +348,7 @@ class CNDFSearch:
     assert True, 'Unrecognizable searchterm'
 
   def search(self, searchterm, df=None, exact=True, show=True):
-    "Finds any single or combination of container(s), block(s) or layer(s) in the model_df"
+    "Finds any single or combination of container(s), block(s) or layer(s) in the `self._cndf` or `df`"
     if df is not None:
       _df = df.copy()
     else:
