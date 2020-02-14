@@ -38,10 +38,10 @@ summary: "CNN viewer and element selector."
 <p>With minor ammendments to the code, fa_convnav can be adapted for use with other CNN architectures and custom CNN models.</p>
 <p><strong>A note about naming.</strong> Naming conventions for the elements of a CNN is confusing. Here we adhere as closely as possible to that used by pytorch and fastai.</p>
 <ul>
-<li><strong>'layers'</strong> are the processing units of the model, e.g. <code>conv2d</code>, <code>batchnorm2d</code>, <code>maxpool</code>, <code>relu</code> etc</li>
+<li><strong>'layers'</strong> are the information processing units of the model, e.g. <code>conv2d</code>, <code>batchnorm2d</code>, <code>maxpool</code>, <code>relu</code> etc</li>
 <li><strong>'modules'</strong> may be layers but also container elements such as <code>cnn.sequential</code> or custom container elements such as resnet <code>BasicBlocks</code> or densenet <code>_DenseLayers</code>. Container modules can also contain the entire head or body of the model, or even the entire model.</li>
-<li><strong>'container'</strong> elements do not do any processing of information themselves but functionally group CNN submodules and layers together.</li>
-<li><strong>'elements'</strong> are all the elements that make up the CNN, both container and non-container layers and modules.</li>
+<li><strong>'container'</strong> elements do not do any information processing themselves but group CNN submodules and layers into functional units.</li>
+<li><strong>'elements'</strong> are all the elements that make up the CNN, both container and non-container,  layers and modules.</li>
 <li><strong>'divisions'</strong> refers to the head or body of a transfer learning model</li>
 <li><strong>'model'</strong> refers to a pre-trained architecture imported from the fastai library or custom architecture with a body and head structure. </li>
 <li><strong>architecture</strong> is an untrained neural network</li>
@@ -72,7 +72,7 @@ summary: "CNN viewer and element selector."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>First create deep learning vision project using a pretrained model downloaded from fastai, a pretrained model with custom head or a custom pytorch model. Creating a fastai2 vision project using a CNN and transfer learning is described in the <a href="https://dev.fast.ai/">fastai documentation</a> and examples are given in examples00.ipynb and examples 01.ipynb.</p>
+<p>First create deep learning vision project using a pretrained model downloaded from fastai, a pretrained model with custom head or a custom pytorch model. Creating a fastai2 vision project using a CNN and transfer learning is described in the <a href="https://dev.fast.ai/">fastai documentation</a> and examples are given here in examples00.ipynb and examples 01.ipynb.</p>
 
 </div>
 </div>
@@ -93,11 +93,11 @@ summary: "CNN viewer and element selector."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>With a fastai learner object <code>learner</code>, create a ConvNav instance from <code>learner</code> and <code>layer_info(learner)</code> method:</p>
+<p>With a fastai Learner object <code>Learner</code>, create a ConvNav instance:</p>
 
-<pre><code>cn = ConvNav(learner, layer_info(learner)</code></pre>
-<p>The model type and name are automatically detected and a dataframe of CNN model information built. ConvNav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.</p>
-<p>View a ConvNav dataframe:</p>
+<pre><code>cn = ConvNav(learner, Learner.summary())</code></pre>
+<p>The model type and name are automatically detected and a dataframe of CNN model information is built, called a CNDF dataframe. CNDF dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.</p>
+<p>View a CNDF dataframe:</p>
 
 <pre><code>cn.view()</code></pre>
 <p>or</p>
@@ -109,28 +109,28 @@ summary: "CNN viewer and element selector."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Searching-a-ConvNav-dataframe-and-selecting-model-elements">Searching a ConvNav dataframe and selecting model elements<a class="anchor-link" href="#Searching-a-ConvNav-dataframe-and-selecting-model-elements">&#182;</a></h3>
+<h3 id="Searching-a-CNDF-dataframe-and-selecting-model-elements">Searching a CNDF dataframe and selecting model elements<a class="anchor-link" href="#Searching-a-CNDF-dataframe-and-selecting-model-elements">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>ConvNav dataframes can be searched and any element(s) (modules, blocks or layers) can be selected using ConvNav functions.</p>
-<ul>
-<li>Search for elements by module name, module type, layer description etc. Note that module names are those returned by the fastai named_modules() method. </li>
-<li>Select modules/layers individually, in blocks or by higher level containers, or by type of layer</li>
-<li>View summaries of model head and body </li>
-</ul>
-<p>For example,</p>
-
-<pre><code>cn.search('0.0.2', exact=True)</code></pre>
-<p>Searches for the module with module_name '0.0.2'.</p>
-
-<pre><code>cn.spread(req='conv', num=8)</code></pre>
-<p>Returns eight conv2d layers equally spaced between the first and last modules of the model body.</p>
+<p>CNDF dataframes can be viewed whole to see the overall structure of the model as well as subsetted and/or searched for any combination of model element(s). Selected elements are returned with associated module objects for use with Pytorch hooks and fastai callbacks. CNDF dataframes can be saved and loaded from to persistent storage.</p>
+<p>For example:</p>
 
 <pre><code>cn.divs</code></pre>
-<p>Prints summary information for the model body and head.</p>
+<p>Displays summary information for the model body and head.</p>
+
+<pre><code>cn.search('0.0.2', exact=True)</code></pre>
+<p>Searches for, displays and returns the module object with module_name '0.0.2'.</p>
+
+<pre><code>cn.spread(req='conv', num=8)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>In most cases module/layer selections are displayed as a dataframe and the associated element objects returned for use with hooks and callbacks.</p>
 
 </div>

@@ -18,10 +18,10 @@ With minor ammendments to the code, fa_convnav can be adapted for use with other
 **A note about naming.** Naming conventions for the elements of a CNN is confusing. Here we adhere as closely as possible to that used by pytorch and fastai. 
 
 
-*   **'layers'** are the processing units of the model, e.g. `conv2d`, `batchnorm2d`, `maxpool`, `relu` etc
+*   **'layers'** are the information processing units of the model, e.g. `conv2d`, `batchnorm2d`, `maxpool`, `relu` etc
 *   **'modules'** may be layers but also container elements such as `cnn.sequential` or custom container elements such as resnet `BasicBlocks` or densenet `_DenseLayers`. Container modules can also contain the entire head or body of the model, or even the entire model.
-*   **'container'** elements do not do any processing of information themselves but functionally group CNN submodules and layers together.
-*   **'elements'** are all the elements that make up the CNN, both container and non-container layers and modules.
+*   **'container'** elements do not do any information processing themselves but group CNN submodules and layers into functional units.
+*   **'elements'** are all the elements that make up the CNN, both container and non-container,  layers and modules.
 *  **'divisions'** refers to the head or body of a transfer learning model
 *  **'model'** refers to a pre-trained architecture imported from the fastai library or custom architecture with a body and head structure. 
 *  **architecture** is an untrained neural network
@@ -39,7 +39,7 @@ pip install fa_convnav
 
 
 
-First create deep learning vision project using a pretrained model downloaded from fastai, a pretrained model with custom head or a custom pytorch model. Creating a fastai2 vision project using a CNN and transfer learning is described in the [fastai documentation](https://dev.fast.ai/) and examples are given in examples00.ipynb and examples 01.ipynb. 
+First create deep learning vision project using a pretrained model downloaded from fastai, a pretrained model with custom head or a custom pytorch model. Creating a fastai2 vision project using a CNN and transfer learning is described in the [fastai documentation](https://dev.fast.ai/) and examples are given here in examples00.ipynb and examples 01.ipynb. 
 
 ### Create and view a ConvNav dataframe.
 
@@ -47,15 +47,15 @@ First create deep learning vision project using a pretrained model downloaded fr
 from fa_convnav.navigator import *
 ```
 
-With a fastai learner object `learner`, create a ConvNav instance from `learner` and `layer_info(learner)` method:
+With a fastai Learner object `Learner`, create a ConvNav instance:
 
 ```
-cn = ConvNav(learner, layer_info(learner)
+cn = ConvNav(learner, Learner.summary())
 ```
 
-The model type and name are automatically detected and a dataframe of CNN model information built. ConvNav dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.
+The model type and name are automatically detected and a dataframe of CNN model information is built, called a CNDF dataframe. CNDF dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.
 
-View a ConvNav dataframe:
+View a CNDF dataframe:
 
 ```
 cn.view()
@@ -67,33 +67,29 @@ or
 cn() *prints just the first ten rows
 ```  
 
-### Searching a ConvNav dataframe and selecting model elements
+### Searching a CNDF dataframe and selecting model elements
 
-ConvNav dataframes can be searched and any element(s) (modules, blocks or layers) can be selected using ConvNav functions. 
+CNDF dataframes can be viewed whole to see the overall structure of the model as well as subsetted and/or searched for any combination of model element(s). Selected elements are returned with associated module objects for use with Pytorch hooks and fastai callbacks. CNDF dataframes can be saved and loaded from to persistent storage. 
 
-*   Search for elements by module name, module type, layer description etc. Note that module names are those returned by the fastai named_modules() method. 
-*   Select modules/layers individually, in blocks or by higher level containers, or by type of layer
-*   View summaries of model head and body 
-
-For example, 
-
-```
-cn.search('0.0.2', exact=True)
-```
-
-Searches for the module with module_name '0.0.2'. 
-
-```
-cn.spread(req='conv', num=8)
-```
-
-Returns eight conv2d layers equally spaced between the first and last modules of the model body.
+For example:
 
 ```
 cn.divs
 ```
 
-Prints summary information for the model body and head. 
+Displays summary information for the model body and head. 
+
+```
+cn.search('0.0.2', exact=True)
+```
+
+Searches for, displays and returns the module object with module_name '0.0.2'. 
+
+```
+cn.spread(req='conv', num=8)
+```
+
+
 
 In most cases module/layer selections are displayed as a dataframe and the associated element objects returned for use with hooks and callbacks. 
 
