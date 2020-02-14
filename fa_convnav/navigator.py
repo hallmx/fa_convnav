@@ -40,8 +40,8 @@ def get_row(l, m):
   elif m == 'resnet':
     if blk == 'BasicBlock' or blk == 'Bottleneck': lyr = ''
     else:
-      if ln_n_splits > 4: lyr = f". {lyr_str[:87]}"
-      if ln_n_splits == 4 and ln_split[3] == 'downsample': lyr = tch_cls
+      if ln_n_splits > 4: lyr = f". . {lyr_str[:86]}"
+      if ln_n_splits == 4 and ln_split[3] == 'downsample': lyr = f'Container{tch_cls}'
 
   elif m == 'densenet':
     lyr_name = lyr_name.replace('denseblock', '').replace('denselayer', '')
@@ -60,10 +60,10 @@ def get_row(l, m):
       lyr = ''
     else:
       if ln_n_splits < 4: lyr =  lyr_str[:90]
-      elif ln_n_splits == 4 and tch_cls == 'Sequential': lyr =  tch_cls
+      elif ln_n_splits == 4 and tch_cls == 'Sequential': lyr =  f'Container{tch_cls}'
       elif ln_n_splits == 4 and tch_cls == 'ReLU': lyr =  lyr_str[:90]
-      elif ln_n_splits == 5 and tch_cls == 'ConvLayer': lyr =  f'. {tch_cls}'
-      else: lyr =  f'. . {lyr_str[:82]}'
+      elif ln_n_splits == 5 and tch_cls == 'ConvLayer': lyr =  f'. . Container{tch_cls}'
+      else: lyr =  f'. . . . {lyr_str[:32]}'
 
   else:
     raise Exception("Model type not recognised")
@@ -137,7 +137,7 @@ class CNDF:
     info_gen = ((_, p, t, self.add_bs(o)) for _, p, t, o in info) # info_gen = generator
     for row in df.itertuples():
       idx = row.Index
-      if row.Layer_description not in ['', '. ConvLayer', 'Sequential']:
+      if row.Layer_description not in ['', '. . ContainerConvLayer', 'ContainerSequential']:
         _, p, t, o = next(info_gen)
         df.at[idx, 'Output_dimensions'] = str(o)
         df.at[idx, 'Parameters'] =  p
