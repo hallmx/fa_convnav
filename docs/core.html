@@ -18,15 +18,13 @@ summary: "Core functionality for fa_convnav"
 -->
 
 <div class="container" id="notebook-container">
-    
+    {% raw %}
+        
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Test-functions">Test functions<a class="anchor-link" href="#Test-functions">&#182;</a></h3>
-</div>
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
@@ -40,9 +38,9 @@ summary: "Core functionality for fa_convnav"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="core_test" class="doc_header"><code>core_test</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L6" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>core_test</code>(<strong><code>test</code></strong>)</p>
+<h4 id="find_model" class="doc_header"><code>find_model</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_model</code>(<strong><code>n</code></strong>)</p>
 </blockquote>
-<p>function</p>
+<p>Returns tuple of model type and name (e.g. ('resnet', 'resnet50')) given <code>n</code>, the number of named_modules in Learner.model.named_modules()</p>
 
 </div>
 
@@ -57,28 +55,310 @@ summary: "Core functionality for fa_convnav"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">core_test</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">find_model</span><span class="p">(</span><span class="mi">162</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;resnet&#39;</span><span class="p">,</span> <span class="s1">&#39;resnet50&#39;</span><span class="p">))</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">find_model</span><span class="p">(</span><span class="mi">585</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;densenet&#39;</span><span class="p">,</span> <span class="s1">&#39;densenet161&#39;</span><span class="p">))</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>test
-</pre>
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="get_row" class="doc_header"><code>get_row</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_row</code>(<strong><code>l</code></strong>, <strong><code>m</code></strong>)</p>
+</blockquote>
+<p>Construct dataframe row from <code>l</code> (Learner.named_modules() module) and <code>m</code> (model_type)</p>
+
 </div>
+
 </div>
 
 </div>
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_learner</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_test_vars</span><span class="p">()</span>
+<span class="n">module5</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_learner</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">named_modules</span><span class="p">())[</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">module_last</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_learner</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">named_modules</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">test_eq</span><span class="p">(</span><span class="n">get_row</span><span class="p">(</span><span class="n">module5</span><span class="p">,</span> <span class="s1">&#39;resnet&#39;</span><span class="p">)[</span><span class="s1">&#39;Module_name&#39;</span><span class="p">],</span> <span class="s1">&#39;0.3&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">get_row</span><span class="p">(</span><span class="n">module_last</span><span class="p">,</span> <span class="s1">&#39;resnet&#39;</span><span class="p">)[</span><span class="s1">&#39;Layer_description&#39;</span><span class="p">],</span> <span class="s1">&#39;Linear(in_features=512, out_features=37, bias=False)&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="get_inp_sz" class="doc_header"><code>get_inp_sz</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L106" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_inp_sz</code>(<strong><code>infos</code></strong>)</p>
+</blockquote>
+<p>Slice first row of <code>infos</code> to give string representation of model input sizes</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">get_inp_sz</span><span class="p">([</span><span class="s2">&quot;Sequential (Input shape: [&#39;128 x 3 x 224 x 224&#39;])&quot;</span><span class="p">]),</span> <span class="s2">&quot;128 x 3 x 224 x 224&quot;</span> <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="infos_to_gen" class="doc_header"><code>infos_to_gen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L113" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>infos_to_gen</code>(<strong><code>infos</code></strong>)</p>
+</blockquote>
+<p>Slice the remaining rows of <code>infos</code> to give the layers, <code>m</code>, output dimensions <code>o</code>, parameters <code>p</code> and trainable <code>t</code> of each layer and return (m,o,p,t) for all layers in a generator</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">test_summary</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_test_vars</span><span class="p">()</span>
+<span class="n">gen</span> <span class="o">=</span> <span class="n">infos_to_gen</span><span class="p">(</span><span class="n">test_summary</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">))</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">gen</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Conv2d&#39;</span><span class="p">,</span> <span class="s1">&#39;[128 x 64 x 112 x 11]&#39;</span><span class="p">,</span> <span class="s1">&#39;9,408&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="CNDF" class="doc_header"><code>class</code> <code>CNDF</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDF</code>(<strong><code>learner</code></strong>:<code>any</code>, <strong><code>learner_summary</code></strong>:<code>str</code>)</p>
+</blockquote>
+<p>Compile information from fastai <code>Learner.model</code> and 'layer_info(Learner)` into a dataframe</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>CNDF class builds a dataframe using a fastai Learner and the output of Learner.summary() method. The resulting dataframe, called a CNDF dataframe, combines information from both sources and represents both the structure and information of Learner.model.</p>
+<p>CNDF is a parent class of ConvNav and a CNDF dataframe is automatically built when a new ConvNav object is instantiated and for most use cases CNDF dataframes should be built this way. However, if there is a need to build a CNDF dataframe in isolation use:</p>
+
+<pre><code>cndf = CNDF(Learner, Learner.summary())</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="CNDF.supported_models" class="doc_header"><code>CNDF.supported_models</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L255" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDF.supported_models</code>()</p>
+</blockquote>
+<p>Prints list of supported models from 'models' list (imported from models)</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="CNDF.cndf" class="doc_header"><code>CNDF.cndf</code><a href="" class="source_link" style="float:right">[source]</a></h4><p>Returns a ConvNav dataframe</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In native format, CNDF dataframes include the module objetcs in a 'lyr_obj' column and the combined size of the module objects can be quite large, 100-200mb for a complex model such as a densenet or xresnet. Thus, by default, module objects are removed from the dataframe. Set with_modules = True to include module objects. in returned dataframe.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="CNDF.batch_size" class="doc_header"><code>CNDF.batch_size</code><a href="" class="source_link" style="float:right">[source]</a></h4><p>Returns the batch size of the current learner</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="CNDF.input_sizes" class="doc_header"><code>CNDF.input_sizes</code><a href="" class="source_link" style="float:right">[source]</a></h4><p>Returns the sizes (dimensions bs, ch, h, w) of the model)</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="CNDF.output_dimensions" class="doc_header"><code>CNDF.output_dimensions</code><a href="" class="source_link" style="float:right">[source]</a></h4><p>Returns output dimensions of model (bs, classes)</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="CNDF.model_info" class="doc_header"><code>CNDF.model_info</code><a href="" class="source_link" style="float:right">[source]</a></h4><p>Return an info string derived from<code>Learner.model</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_learner</span><span class="p">,</span> <span class="n">test_summary</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_test_vars</span><span class="p">()</span>
+<span class="n">cndf_test</span> <span class="o">=</span> <span class="n">CNDF</span><span class="p">(</span><span class="n">test_learner</span><span class="p">,</span> <span class="n">test_summary</span><span class="p">)</span>
+
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">cndf_test</span><span class="o">.</span><span class="n">_cndf</span><span class="p">),</span> <span class="n">DataFrame</span><span class="p">)</span>   
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cndf_test</span><span class="o">.</span><span class="n">_cndf</span><span class="p">),</span> <span class="mi">79</span><span class="p">)</span>             <span class="c1"># rows</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cndf_test</span><span class="o">.</span><span class="n">_cndf</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="mi">22</span><span class="p">)</span>     <span class="c1"># columns</span>
+<span class="k">del</span><span class="p">(</span><span class="n">cndf_test</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
 </div>
  
 

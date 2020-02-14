@@ -2,13 +2,11 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"core_test": "00_core.ipynb",
-         "get_row": "01_navigator.ipynb",
-         "find_model": "01_navigator.ipynb",
-         "split_infos": "01_navigator.ipynb",
-         "get_inp_sz": "01_navigator.ipynb",
-         "infos_to_gen": "01_navigator.ipynb",
-         "CNDF": "01_navigator.ipynb",
+index = {"find_model": "00_core.ipynb",
+         "get_row": "00_core.ipynb",
+         "get_inp_sz": "00_core.ipynb",
+         "infos_to_gen": "00_core.ipynb",
+         "CNDF": "00_core.ipynb",
          "CNDFView": "01_navigator.ipynb",
          "CNDFSearch": "01_navigator.ipynb",
          "ConvNav": "01_navigator.ipynb",
