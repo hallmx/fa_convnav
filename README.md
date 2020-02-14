@@ -88,10 +88,9 @@ Searches for, displays and returns the module object with module_name '0.0.2'.
 ```
 cn.spread(req='conv', num=8)
 ```
+Searches for, displays and returns the module objects for 8 con2d layers equally spaced from start to end of the model.
 
 
-
-In most cases module/layer selections are displayed as a dataframe and the associated element objects returned for use with hooks and callbacks. 
 
 ## Examples
 

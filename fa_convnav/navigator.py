@@ -492,7 +492,7 @@ class ConvNav(CNDF, CNDFSearch, CNDFView):
     old_dims = 0
     for i, row in enumerate(df.iterrows()):
       row=row[1]
-      new_dims = row['Output_dimensions'].rstrip(']').split(',')[-1]
+      new_dims = row['Output_dimensions'].rstrip(']').split(' x ')[-1]
       if new_dims != old_dims:
         n.append(i)
         old_dims = new_dims
@@ -511,7 +511,6 @@ class ConvNav(CNDF, CNDFSearch, CNDFView):
     print(f"{self.model_name.capitalize()} linear layers\n")
     self.view(df, truncate=1, tight=False)
     return df['lyr_obj'].tolist()
-
 
 # Cell
 def save_cndf(cn, filename, path='', with_modules=False):
