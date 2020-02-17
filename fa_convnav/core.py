@@ -149,13 +149,13 @@ class CNDF:
 
     for row in df.itertuples():
       idx = row.Index
-      if row.Layer_description not in ['', '. . ContainerConvLayer', 'ContainerSequential']:
+      if row.Layer_description not in {'', '. . ContainerConvLayer', 'ContainerSequential'}:
         _, o, p, t = next(info_gen)
         df.at[idx, 'Output_dimensions'] = str(o)
         df.at[idx, 'Parameters'] =  p
         df.at[idx, 'Trainable'] = t
         if 'Conv2d' in row.Torch_class:
-          df.at[idx, 'Currently'] = 'Unfrozen' if t else 'Frozen'
+          df.at[idx, 'Currently'] = 'Unfrozen' if t == 'True' else 'Frozen'
 
     # backfill container rows with summary layer information and layer/block counts
     # 1.set up index stores and counters
@@ -240,17 +240,35 @@ class CNDF:
   def model_info(self):
     "Return an info string derived from`Learner.model`"
     res = f"{self.model_type.capitalize()}: {self.model_name.capitalize()}\n"
-    res += f"Input shape: {self.inp_sz} (bs, ch, h, w)\n"
+    res += f"Input shape: [{self.inp_sz}] (bs, ch, h, w)\n"
     res += f"Output features: {self.output_dimensions} (bs, classes)\n"
     res += f"Currently frozen to parameter group {self.frozen_to} out of {self.num_param_groups}"
     return res
 
-  @property
   def cndf(self, with_modules=False):
     "Returns a ConvNav dataframe"
     df = self._cndf.copy()
     if not with_modules: df = df.iloc[:,:-1]
     return df
+
+  def layer_params(self, idx):
+    "Returns the parameters of layer with Index `idx`"
+    m = get_layer(self._cndf, idx)
+    assert not m_out is None, f'Module {idx} is a container module, not a layer'
+    return int(m['Parameters'].replace(',', ''))
+
+  def layer_dims(self, idx):
+    "Return tuple of input and output dimensions (as strings) of layer with index `idx`"
+    m_out = get_layer(self._cndf, idx)
+    assert not m_out is None, f'Module {idx} is a container module, not a layer'
+    i = 1
+    m_in = None
+    while m_in is None:
+      m_in = get_layer(self._cndf, idx-i)
+      i += 1
+      if idx-i == 0:
+        break
+    return (self.inp_sz if m_in is None else m_in['Output_dimensions'], m_out['Output_dimensions'])
 
   @staticmethod
   def supported_models():
