@@ -3,10 +3,11 @@
 __all__ = ['cndf_view', 'add_container_row_info', 'cndf_search', 'ConvNav', 'cndf_save', 'cndf_load']
 
 # Cell
-import gzip, pickle
+import pickle
 from .models import models
 from .core import *
-from pandas import DataFrame, option_context
+from pandas import DataFrame, option_context, concat
+from math import ceil
 
 # Cell
 def cndf_view(df, verbose=3, truncate=0, tight=True, align_cols='left', top=False):
@@ -109,14 +110,14 @@ def cndf_search(df, searchterm, exact=True, show=True):
       _df = DataFrame()
       for col, s in searchterm.items():
         new_df = match(df, {col:s}, exact)
-        _df = pd.concat((_df, new_df), axis=0, ignore_index=False).drop_duplicates('Module_name')
+        _df = concat((_df, new_df), axis=0, ignore_index=False).drop_duplicates('Module_name')
       return _df
     #concatenate successive search results (logical 'OR') in list
     elif isinstance(searchterm, list):
       _df = DataFrame()
       for s in searchterm:
         new_df = match(df, s, exact)
-        _df = pd.concat((_df, new_df), axis=0, ignore_index=False).drop_duplicates('Module_name')
+        _df = concat((_df, new_df), axis=0, ignore_index=False).drop_duplicates('Module_name')
       return _df
     #recursively call match on _df to logical 'AND' successive search results in tuple
     elif isinstance(searchterm, tuple):
@@ -162,19 +163,17 @@ class ConvNav(CNDF):
     "Find `searchterm` in instance dataframe, display the results and return matching module object(s). See `cndf_search()` for kwargs."
     return cndf_search(self._cndf, searchterm, **kwargs)
 
-  def view(self, show=True, **kwargs):
-    "Display instance CNDF dataframe with optional arguments and styling (see `cndf_view()`)"
-    if show:
-      print(f'{self.model_info}\n')
-      cndf_view(self._cndf, **kwargs)
+  def view(self, **kwargs):
+    "Display instance CNDF dataframe with optional arguments and styling (see `cndf_view()` for kwargs)"
+    print(f'{self.model_info}\n')
+    cndf_view(self._cndf, **kwargs)
 
-  def _view(self, df, add_info=False, show=True, **kwargs):
+  def _view(self, df, add_info=False, **kwargs):
     "Add output dimensions and block/layer counts to Container rows of `df` then display `df`"
-    if show:
-      _df = df.copy()
-      if add_info:
-        _df = add_container_row_info(_df)
-      cndf_view(_df, **kwargs)
+    _df = df.copy()
+    if add_info:
+      _df = add_container_row_info(_df)
+    cndf_view(_df, **kwargs)
 
   @property
   def head(self):
@@ -349,7 +348,8 @@ class ConvNav(CNDF):
 
     df = self._cndf.copy()
     df = df[df['tch_cls'] == 'Conv2d']
-    assert isinstance(num, int) and num > 0 and num < len(df), f'Number must be an integer between 1 and {len(df)}'
+    assert isinstance(num, int) and num > 0, f'Number must be a positive integer'
+    if num >= len(df): num = len(df)-1
 
     if in_main:
       df = df.iloc[1:]
@@ -415,7 +415,7 @@ class ConvNav(CNDF):
     df = add_container_row_info(df)
 
     if len(df) > num:
-      n = list(range(0, len(df), (math.ceil(len(df)/num))))
+      n = list(range(0, len(df), (ceil(len(df)/num))))
       n.pop()
       n.append(len(df)-1)
       df = df.iloc[n]

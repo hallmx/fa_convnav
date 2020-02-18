@@ -118,7 +118,7 @@ summary: "Core functionality for fa_convnav"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_inp_sz" class="doc_header"><code>get_inp_sz</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L106" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_inp_sz</code>(<strong><code>infos</code></strong>)</p>
+<h4 id="get_inp_sz" class="doc_header"><code>get_inp_sz</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L109" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_inp_sz</code>(<strong><code>infos</code></strong>)</p>
 </blockquote>
 <p>Slice first row of <code>infos</code> to give string representation of model input sizes</p>
 
@@ -155,7 +155,7 @@ summary: "Core functionality for fa_convnav"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="infos_to_gen" class="doc_header"><code>infos_to_gen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L113" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>infos_to_gen</code>(<strong><code>infos</code></strong>)</p>
+<h4 id="infos_to_gen" class="doc_header"><code>infos_to_gen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L116" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>infos_to_gen</code>(<strong><code>infos</code></strong>)</p>
 </blockquote>
 <p>Slice the remaining rows of <code>infos</code> to give the layers, <code>m</code>, output dimensions <code>o</code>, parameters <code>p</code> and trainable <code>t</code> of each layer and return (m,o,p,t) for all layers in a generator</p>
 
@@ -194,7 +194,7 @@ summary: "Core functionality for fa_convnav"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="CNDF" class="doc_header"><code>class</code> <code>CNDF</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDF</code>(<strong><code>learner</code></strong>:<code>any</code>, <strong><code>learner_summary</code></strong>:<code>str</code>)</p>
+<h2 id="CNDF" class="doc_header"><code>class</code> <code>CNDF</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L127" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>CNDF</code>(<strong><code>learner</code></strong>:<code>any</code>, <strong><code>learner_summary</code></strong>:<code>str</code>)</p>
 </blockquote>
 <p>Compile information from fastai <code>Learner.model</code> and 'layer_info(Learner)` into a dataframe</p>
 
@@ -225,7 +225,7 @@ summary: "Core functionality for fa_convnav"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="CNDF.supported_models" class="doc_header"><code>CNDF.supported_models</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L273" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDF.supported_models</code>()</p>
+<h4 id="CNDF.supported_models" class="doc_header"><code>CNDF.supported_models</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L276" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDF.supported_models</code>()</p>
 </blockquote>
 <p>Prints list of supported models from 'models' list (imported from models)</p>
 
@@ -246,7 +246,7 @@ summary: "Core functionality for fa_convnav"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="CNDF.cndf" class="doc_header"><code>CNDF.cndf</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L248" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDF.cndf</code>(<strong><code>with_modules</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="CNDF.cndf" class="doc_header"><code>CNDF.cndf</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L251" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDF.cndf</code>(<strong><code>with_modules</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Returns a ConvNav dataframe</p>
 
@@ -332,6 +332,48 @@ summary: "Core functionality for fa_convnav"
 
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="CNDF.model_info" class="doc_header"><code>CNDF.model_info</code><a href="" class="source_link" style="float:right">[source]</a></h4><p>Return an info string derived from<code>Learner.model</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="CNDF.layer_params" class="doc_header"><code>CNDF.layer_params</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L257" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDF.layer_params</code>(<strong><code>idx</code></strong>)</p>
+</blockquote>
+<p>Returns the parameters of layer with Index <code>idx</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="CNDF.layer_dims" class="doc_header"><code>CNDF.layer_dims</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L263" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>CNDF.layer_dims</code>(<strong><code>idx</code></strong>)</p>
+</blockquote>
+<p>Return tuple of input and output dimensions (as strings) of layer with index <code>idx</code></p>
 
 </div>
 

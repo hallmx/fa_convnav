@@ -54,14 +54,17 @@ def get_row(l, m):
 
   elif m == 'densenet':
     lyr_name = lyr_name.replace('denseblock', '').replace('denselayer', '')
-    ln_split = str(lyr_name).split('.', 4)
-    mod = tch_cls if (lyr_name.startswith('0') and ln_n_splits == 3) or (lyr_name.startswith('1') and ln_n_splits == 2) else ''
-    blk = tch_cls if ln_n_splits == 4 and tch_cls == '_DenseLayer' else ''
+    ln_split = str(lyr_name).split('.', 5)
+    if len(ln_split) > 1 and ln_split[0] != '1': del ln_split[1]
+    ln_n_splits = len(ln_split)
+
+    mod = tch_cls if (lyr_name.startswith('0') and ln_n_splits == 2) or (lyr_name.startswith('1') and ln_n_splits == 2) else ''
+    blk = tch_cls if ln_n_splits == 3 and tch_cls == '_DenseLayer' else ''
     if mod == '_DenseBlock' or mod == '_Transition' or blk == '_DenseLayer':
       lyr = ''
     else:
       if lyr_name == '0' or lyr_name == '1': div = tch_cls
-      if lyr_name == '0.0': div = f'. {tch_cls}'
+      if lyr_name == '0.0': div = f'. . {tch_cls}'
 
   elif m == 'xresnet':
     blk = tch_cls if ln_n_splits == 3 and tch_cls == 'ResBlock' else ''

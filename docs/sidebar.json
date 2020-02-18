@@ -4,6 +4,7 @@
     "Core": "/core",
     "Navigator": "/navigator",
     "Models": "/models",
-    "Examples00": "/examples00"
+    "Examples00": "/examples00",
+    "Tests": "/tests"
   }
 }

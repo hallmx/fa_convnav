@@ -19,11 +19,20 @@ index = {"find_model": "00_core.ipynb",
          "resnet": "02_models.ipynb",
          "densenet": "02_models.ipynb",
          "xresnet": "02_models.ipynb",
-         "models": "02_models.ipynb"}
+         "models": "02_models.ipynb",
+         "pets": "03_examples00.ipynb",
+         "dls": "03_examples00.ipynb",
+         "dls.show_batch(max_n": "03_examples00.ipynb",
+         "model": "03_examples00.ipynb",
+         "learn": "03_examples00.ipynb",
+         "cn": "03_examples00.ipynb",
+         "cn.view(top": "03_examples00.ipynb",
+         "layers": "03_examples00.ipynb"}
 
 modules = ["core.py",
            "navigator.py",
-           "models.py"]
+           "models.py",
+           "examples00.py"]
 
 doc_url = "https://hallmx.github.io/fa_convnav/"
 

@@ -21,6 +21,9 @@ entries:
     - output: web,pdf
       title: Examples00
       url: /examples00
+    - output: web,pdf
+      title: Tests
+      url: /tests
     output: web
     title: fa_convnav
   output: web
