@@ -15,8 +15,6 @@ def convnav_supported_models():
   "Prints list of transfer learning models supported by fa_convnav"
   supported_models()
 
-convnav_supported_models()
-
 # Cell
 def cndf_view(df, verbose=3, truncate=0, tight=True, align_cols='left', top=False):
     "Display a valid CNDF dataframe `df` with optional arguments and styling"

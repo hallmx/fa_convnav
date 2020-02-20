@@ -22,82 +22,11 @@ summary: "CNN viewer and navigator"
         
 <div class="cell border-box-sizing code_cell rendered">
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Supported models
-================
-
-vgg11_bn
-vgg13_bn
-vgg16_bn
-vgg19_bn
-alexnet
-squeezenet1_0
-squeezenet1_1
-resnet18
-resnet34
-resnet50
-resnet101
-resnet151
-densenet121
-densenet161
-densenet169
-densenet201
-xresnet101
-xresnet152
-xresnet18
-xresnet18_deep
-xresnet18_deeper
-xresnet34
-xresnet34_deep
-xresnet34_deeper
-xresnet50
-xresnet50_deep
-xresnet50_deeper
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-40-4f81424d66dc&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span>   supported_models<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span> 
-<span class="ansi-green-fg">----&gt; 5</span><span class="ansi-red-fg"> </span>convnav_supported_models<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">&lt;ipython-input-40-4f81424d66dc&gt;</span> in <span class="ansi-cyan-fg">convnav_supported_models</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">def</span> convnav_supported_models<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span>   <span class="ansi-blue-fg">&#34;Prints list of transfer learning models supported by fa_convnav&#34;</span>
-<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg">   </span>supported_models<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span> 
-<span class="ansi-green-intense-fg ansi-bold">      5</span> convnav_supported_models<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">NameError</span>: name &#39;supported_models&#39; is not defined</pre>
-</div>
-</div>
-
-</div>
-</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -133,7 +62,7 @@ xresnet50_deeper
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="cndf_view" class="doc_header"><code>cndf_view</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cndf_view</code>(<strong><code>df</code></strong>, <strong><code>verbose</code></strong>=<em><code>3</code></em>, <strong><code>truncate</code></strong>=<em><code>0</code></em>, <strong><code>tight</code></strong>=<em><code>True</code></em>, <strong><code>align_cols</code></strong>=<em><code>'left'</code></em>, <strong><code>top</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="cndf_view" class="doc_header"><code>cndf_view</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L19" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cndf_view</code>(<strong><code>df</code></strong>, <strong><code>verbose</code></strong>=<em><code>3</code></em>, <strong><code>truncate</code></strong>=<em><code>0</code></em>, <strong><code>tight</code></strong>=<em><code>True</code></em>, <strong><code>align_cols</code></strong>=<em><code>'left'</code></em>, <strong><code>top</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Display a valid CNDF dataframe <code>df</code> with optional arguments and styling</p>
 
@@ -170,7 +99,7 @@ xresnet50_deeper
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_container_row_info" class="doc_header"><code>add_container_row_info</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L56" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_container_row_info</code>(<strong><code>df</code></strong>)</p>
+<h4 id="add_container_row_info" class="doc_header"><code>add_container_row_info</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L54" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_container_row_info</code>(<strong><code>df</code></strong>)</p>
 </blockquote>
 <p>Add output dimensions and block/layer counts to container rows of <code>df</code>. These are not added when a CNDF dataframe is first built to avoid cluttering the display of larger dataframes.</p>
 
@@ -194,7 +123,7 @@ xresnet50_deeper
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="cndf_search" class="doc_header"><code>cndf_search</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L66" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cndf_search</code>(<strong><code>df</code></strong>, <strong><code>searchterm</code></strong>, <strong><code>exact</code></strong>=<em><code>True</code></em>, <strong><code>show</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="cndf_search" class="doc_header"><code>cndf_search</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L64" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cndf_search</code>(<strong><code>df</code></strong>, <strong><code>searchterm</code></strong>, <strong><code>exact</code></strong>=<em><code>True</code></em>, <strong><code>show</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Search a CNDF dataframe, display the results in a dataframe and return matching module object(s)</p>
 
@@ -268,7 +197,7 @@ test_eq(cndf_search(test_df, (&#39;0.6&#39;, &#39;0.5&#39;), exact=False), None)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvNav" class="doc_header"><code>class</code> <code>ConvNav</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L153" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvNav</code>(<strong><code>learner</code></strong>, <strong><code>learner_summary</code></strong>) :: <a href="/fa_convnav/core#CNDF"><code>CNDF</code></a></p>
+<h2 id="ConvNav" class="doc_header"><code>class</code> <code>ConvNav</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L151" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvNav</code>(<strong><code>learner</code></strong>, <strong><code>learner_summary</code></strong>) :: <a href="/fa_convnav/core#CNDF"><code>CNDF</code></a></p>
 </blockquote>
 <p>Builds a CNDF dataframe representation of a CNN model from a fastai <code>Learner</code> object and <code>Learner.summary()</code>.   Provides methods to view, search and select model layers and modules for further investigation.</p>
 
@@ -329,7 +258,7 @@ test_eq(cndf_search(test_df, (&#39;0.6&#39;, &#39;0.5&#39;), exact=False), None)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ConvNav.search" class="doc_header"><code>ConvNav.search</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L172" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.search</code>(<strong><code>searchterm</code></strong>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="ConvNav.search" class="doc_header"><code>ConvNav.search</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L170" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.search</code>(<strong><code>searchterm</code></strong>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Find <code>searchterm</code> in instance dataframe, display the results and return matching module object(s). See <code>cndf_search()</code> for kwargs.</p>
 
@@ -350,7 +279,7 @@ test_eq(cndf_search(test_df, (&#39;0.6&#39;, &#39;0.5&#39;), exact=False), None)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ConvNav.view" class="doc_header"><code>ConvNav.view</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L176" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.view</code>(<strong>**<code>kwargs</code></strong>)</p>
+<h4 id="ConvNav.view" class="doc_header"><code>ConvNav.view</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L174" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.view</code>(<strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Display instance CNDF dataframe with optional arguments and styling (see <code>cndf_view()</code> for kwargs)</p>
 
@@ -472,7 +401,7 @@ test_eq(cndf_search(test_df, (&#39;0.6&#39;, &#39;0.5&#39;), exact=False), None)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ConvNav.frozen" class="doc_header"><code>ConvNav.frozen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L303" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.frozen</code>(<strong><code>col</code></strong>=<em><code>'child'</code></em>)</p>
+<h4 id="ConvNav.frozen" class="doc_header"><code>ConvNav.frozen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L301" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.frozen</code>(<strong><code>col</code></strong>=<em><code>'child'</code></em>)</p>
 </blockquote>
 <p>Displays and returns all frozen child container (<code>col='child'</code>), block container (<code>col='block'</code>) or layers (<code>col='layer'</code>).</p>
 
@@ -493,7 +422,7 @@ test_eq(cndf_search(test_df, (&#39;0.6&#39;, &#39;0.5&#39;), exact=False), None)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ConvNav.unfrozen" class="doc_header"><code>ConvNav.unfrozen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L307" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.unfrozen</code>(<strong><code>col</code></strong>=<em><code>'child'</code></em>)</p>
+<h4 id="ConvNav.unfrozen" class="doc_header"><code>ConvNav.unfrozen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L305" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.unfrozen</code>(<strong><code>col</code></strong>=<em><code>'child'</code></em>)</p>
 </blockquote>
 <p>Displays and returns all unfrozen child container (<code>col='child'</code>), block container (<code>col='block'</code>) or layers (<code>col='layer'</code>).</p>
 
@@ -514,7 +443,7 @@ test_eq(cndf_search(test_df, (&#39;0.6&#39;, &#39;0.5&#39;), exact=False), None)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ConvNav.last_frozen" class="doc_header"><code>ConvNav.last_frozen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L311" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.last_frozen</code>(<strong><code>col</code></strong>=<em><code>'child'</code></em>)</p>
+<h4 id="ConvNav.last_frozen" class="doc_header"><code>ConvNav.last_frozen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L309" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.last_frozen</code>(<strong><code>col</code></strong>=<em><code>'child'</code></em>)</p>
 </blockquote>
 <p>Displays and returns the last frozen child container (<code>col='child'</code>), block container (<code>col='block'</code>) or layer (<code>col='layer'</code>).</p>
 
@@ -535,7 +464,7 @@ test_eq(cndf_search(test_df, (&#39;0.6&#39;, &#39;0.5&#39;), exact=False), None)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ConvNav.first_unfrozen" class="doc_header"><code>ConvNav.first_unfrozen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L315" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.first_unfrozen</code>(<strong><code>col</code></strong>=<em><code>'child'</code></em>)</p>
+<h4 id="ConvNav.first_unfrozen" class="doc_header"><code>ConvNav.first_unfrozen</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L313" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.first_unfrozen</code>(<strong><code>col</code></strong>=<em><code>'child'</code></em>)</p>
 </blockquote>
 <p>Displays and returns the first unfrozen child container (<code>col='child'</code>), block container (<code>col='block'</code>) or layer (<code>col='layer'</code>).</p>
 
@@ -594,7 +523,7 @@ test_eq(cndf_search(test_df, (&#39;0.6&#39;, &#39;0.5&#39;), exact=False), None)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ConvNav.find_conv" class="doc_header"><code>ConvNav.find_conv</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L353" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.find_conv</code>(<strong><code>req</code></strong>=<em><code>'all'</code></em>, <strong><code>num</code></strong>=<em><code>1</code></em>, <strong><code>in_main</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="ConvNav.find_conv" class="doc_header"><code>ConvNav.find_conv</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L351" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.find_conv</code>(<strong><code>req</code></strong>=<em><code>'all'</code></em>, <strong><code>num</code></strong>=<em><code>1</code></em>, <strong><code>in_main</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Finds the first (<code>req=First</code>) or last (<code>req=last</code>) <code>num</code> Conv2d layers in the model body. Set <code>in_main=True</code> to return conv layers from the main body of the model only.</p>
 
@@ -615,7 +544,7 @@ test_eq(cndf_search(test_df, (&#39;0.6&#39;, &#39;0.5&#39;), exact=False), None)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ConvNav.find_block" class="doc_header"><code>ConvNav.find_block</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L378" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.find_block</code>(<strong><code>b</code></strong>, <strong><code>layers</code></strong>=<em><code>True</code></em>, <strong><code>layers_only</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="ConvNav.find_block" class="doc_header"><code>ConvNav.find_block</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L376" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.find_block</code>(<strong><code>b</code></strong>, <strong><code>layers</code></strong>=<em><code>True</code></em>, <strong><code>layers_only</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Finds, displays and returns container blocks by module name <code>b</code></p>
 
@@ -643,7 +572,7 @@ test_eq(cndf_search(test_df, (&#39;0.6&#39;, &#39;0.5&#39;), exact=False), None)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ConvNav.spread" class="doc_header"><code>ConvNav.spread</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L404" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.spread</code>(<strong><code>req</code></strong>=<em><code>'conv'</code></em>, <strong><code>num</code></strong>=<em><code>5</code></em>)</p>
+<h4 id="ConvNav.spread" class="doc_header"><code>ConvNav.spread</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L402" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvNav.spread</code>(<strong><code>req</code></strong>=<em><code>'conv'</code></em>, <strong><code>num</code></strong>=<em><code>5</code></em>)</p>
 </blockquote>
 <p>Returns <code>num</code> of equally spaced <code>req</code> elements over the model. <code>req</code> = 'conv', 'block', or 'child'</p>
 
@@ -710,7 +639,7 @@ del(cn_test)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="cndf_save" class="doc_header"><code>cndf_save</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L448" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cndf_save</code>(<strong><code>cn</code></strong>, <strong><code>filename</code></strong>, <strong><code>path</code></strong>=<em><code>''</code></em>, <strong><code>with_modules</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="cndf_save" class="doc_header"><code>cndf_save</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L446" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cndf_save</code>(<strong><code>cn</code></strong>, <strong><code>filename</code></strong>, <strong><code>path</code></strong>=<em><code>''</code></em>, <strong><code>with_modules</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Saves the instance dataframe <code>cn._cndf</code> to persistent storage at <code>path</code> with <code>filename</code> gzip compresseed</p>
 
@@ -741,7 +670,7 @@ del(cn_test)
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="cndf_load" class="doc_header"><code>cndf_load</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L456" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cndf_load</code>(<strong><code>filename</code></strong>, <strong><code>path</code></strong>=<em><code>''</code></em>)</p>
+<h4 id="cndf_load" class="doc_header"><code>cndf_load</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/navigator.py#L454" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cndf_load</code>(<strong><code>filename</code></strong>, <strong><code>path</code></strong>=<em><code>''</code></em>)</p>
 </blockquote>
 <p>Loads a CNDF dataframe from persistent storage at <code>path</code>+<code>filename</code> and unzips it.</p>
 
