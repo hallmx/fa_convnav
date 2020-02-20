@@ -2,7 +2,7 @@
 > CNN viewer and element selector.
 
 
-fa_convnav works with the fastai deep learning library, allowing users to explore convolutional neural network (CNN)  structure and composition as well as select modules and layers for further investigation using pytorch hooks and fastai callbacks.  
+fa_convnav works with the fastai deep learning library, allowing users to explore convolutional neural network (CNN)  structure and composition as well as select modules and layers for further investigation using hooks and callbacks.  
 
 fa_convnav provides native support for the following types of CNN model: 
 
@@ -15,14 +15,16 @@ fa_convnav provides native support for the following types of CNN model:
 
 With minor ammendments to the code, fa_convnav can be adapted for use with other CNN architectures and custom CNN models.
 
-**A note about naming.** Naming conventions for the elements of a CNN is confusing. Here we adhere as closely as possible to that used by pytorch and fastai. 
+**A note about naming.** Naming conventions for the elements of a CNN is confusing with many terms such as layer nd module used interchangeably. Here use the following set of definitions to describe the lements of a CNN. 
 
 
-*   **'layers'** are the information processing units of the model, e.g. `conv2d`, `batchnorm2d`, `maxpool`, `relu` etc
-*   **'modules'** may be layers but also container elements such as `cnn.sequential` or custom container elements such as resnet `BasicBlocks` or densenet `_DenseLayers`. Container modules can also contain the entire head or body of the model, or even the entire model.
-*   **'container'** elements do not do any information processing themselves but group CNN submodules and layers into functional units.
+*   **'layers'** are the information processing units of the model, they can be single elemenst (e.g. `conv2d`, `batchnorm2d`, `maxpool`, `relu` etc) or for larger models with deeply nested sequences, a short sequence of elements wrapped in a container element. 
+*   **'modules'** may be layers but also container elements wrapping a sequence of layers such as `cnn.sequential`.
+*   **'container'** elements do not do any information processing themselves but group sequences of CNN layers or modules togather into functional units.
 *   **'elements'** are all the elements that make up the CNN, both container and non-container,  layers and modules.
-*  **'divisions'** refers to the head or body of a transfer learning model
+*  **'divisions'** refer to the head and body of a transfer learning model
+*  **'child containers'** the first tier of nested modules. As far as possble these match the modules returned with the fastai `model.named_children()` method. 
+*   **'Blocks'** are the second tier of nested modules usually containing a repeating sequence of layers and given a specific name such as `BasicBlock` or `_DenseBlock`
 *  **'model'** refers to a pre-trained architecture imported from the fastai library or custom architecture with a body and head structure. 
 *  **architecture** is an untrained neural network
 
@@ -39,7 +41,7 @@ pip install fa_convnav
 
 
 
-First create deep learning vision project using a pretrained model downloaded from fastai, a pretrained model with custom head or a custom pytorch model. Creating a fastai2 vision project using a CNN and transfer learning is described in the [fastai documentation](https://dev.fast.ai/) and examples are given here in examples00.ipynb and examples 01.ipynb. 
+First create a deep learning vision project using fastai2 and one of the pretrained models supported by fa_convnav (see above or run `supported_models()` in a notebook cell). All the transfer learning models that come ready to download and use with the fastai2 library are supported by fa_convnav.  Creating a fastai2 vision project using a CNN and transfer learning is described in the [fastai documentation](https://dev.fast.ai/). To quickly get started and play around with fa_convnav see the example notebooks, examples00.ipynb and examples 01.ipynb. 
 
 ### Create and view a ConvNav dataframe.
 
@@ -47,13 +49,13 @@ First create deep learning vision project using a pretrained model downloaded fr
 from fa_convnav.navigator import *
 ```
 
-With a fastai Learner object `Learner`, create a ConvNav instance:
+With a fastai Learner object `Learner`, create a ConvNav instance `cn`:
 
 ```
 cn = ConvNav(learner, Learner.summary())
 ```
 
-The model type and name are automatically detected and a dataframe of CNN model information is built, called a CNDF dataframe. CNDF dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.
+The model type and name are automatically detected and a dataframe of CNN model information built. We will call this dataframe as a CNDF dataframe. CNDF dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.
 
 View a CNDF dataframe:
 
@@ -95,7 +97,7 @@ Searches for, displays and returns the module objects for 8 con2d layers equally
 ## Examples
 
 
-See the example notebooks, examples00.ipynb and examples01.ipynb, and for further description and code of how to use fa_convnav 
+Example notebooks examples00.ipynb and examples01.ipynb contain working examples of fa_convnav being used with a resnet model. Example notebooks can be downloaded and run in any notebook environment. 
 
 ## Tests
 

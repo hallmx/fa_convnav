@@ -5,7 +5,7 @@ title: Examples01
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "Using fa_convnav to select modules for investigation with pytorch hooks."
+summary: "Example using fa_convnav to select modules for investigation with pytorch hooks."
 ---
 <!--
 
@@ -405,7 +405,7 @@ Currently frozen to parameter group 3 out of 3
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Select a spread of equally spaced blocks from the model and store their module objects in <code>spread</code>. We will use these to investigate model activity using Pytorch hooks.</p>
+<p>Select a spread of equally spaced blocks from the model and store their module objects in <code>spread</code>.</p>
 
 </div>
 </div>
@@ -552,6 +552,13 @@ Spread of block where n = 4
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>View the modules.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -621,12 +628,13 @@ BasicBlock(
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The following code attaches a hook to <code>target module</code> then passes a single image <code>input_img</code> through the <code>model</code>. During the forward pass, the hook returns the input and output activations and during the backward pass, the gradients associated with the <code>target_module</code>. These are stored and converted into image reresentations of the input activations, gradients and feature map associated with a module as well as a gradient class activation map (gradcam).</p>
-<p>If you are not familiar with Pytorch hooks and Gradcams etc, don't worry they are just ways to 'hook' into a model at specific points (the <code>target_module</code>) as it is operating to draw out information describing how it is functioning and presenting that informationn in a way humans can easily see and understand it. Grdacams, in particular, allow us to see which areas of an image a module contribute most towards predcictions.</p>
+<p>The following code registers forward and backward hooks to <code>target_module</code> then passes a single image <code>input_img</code> through the <code>model</code>. During the forward pass, the input and output activations of the <code>target_module</code>, and during the backward pass the gradients, are stored. These are then converted into image representations of the input activations, gradients, feature map and gradient class activation map (gradcam) associated with the <code>target_module</code>.</p>
+<p>If you are not familiar with Pytorch hooks don't worry they are just ways to 'hook' into a model at specific points (i.e. the <code>target_module</code>) to draw out activations and gradients during model operation. Gradcams allow us to see which areas of an image  contribute most towards final predictions.</p>
 <p>The code is adapted and abridged from these sources, which are also good place to start reading about hooks and gradcams.</p>
 <ul>
 <li><a href="https://arxiv.org/pdf/1610.02391.pdf">https://arxiv.org/pdf/1610.02391.pdf</a></li>
-<li>List item</li>
+<li><a href="https://arxiv.org/pdf/1710.11063.pdf">https://arxiv.org/pdf/1710.11063.pdf</a></li>
+<li><a href="https://github.com/anhquan0412/animation-classification/blob/master/gradcam.py">https://github.com/anhquan0412/animation-classification/blob/master/gradcam.py</a></li>
 </ul>
 
 </div>
@@ -762,7 +770,7 @@ BasicBlock(
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>By plotting the input activations, gradients, feature maps and gradcam in successsion for each of the four modules we selected (and stored in <code>spread</code>) we can easily follow how an image is processed as it passes through the various stages of model.</p>
+<p>By plotting the input activations, gradients, feature maps and gradcam in successively for each of the four modules we selected (and that were stored in <code>spread</code>) we can easily follow an image as it is processed by the model. By repeating the hooks and plots at different stages in model training we can see whether our model is training appropriately or not.</p>
 
 </div>
 </div>
@@ -9522,7 +9530,7 @@ RK5CYII=
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Resnet18 has been pre-trained on the imagenet dataset and the gradcam shows that it already does a pretty good job of identifying the dog or cat even without additional training. Lets now train the model on our dog and cat breeds dataset and see what it can do.</p>
+<p>Resnet18 has been pre-trained on the imagenet dataset and the gradcam shows that it already does a pretty good job of identifying the dog or cat (there were lots of dog and cat images in the imagenet dataset) even without additional training. Now train the model on our dog and cat breeds dataset and see what it can do.</p>
 
 </div>
 </div>
@@ -26901,8 +26909,8 @@ QRAEQRAEwVOFwVEQBEEQBEEQBEEQBEHwVP8bzl/jYWqzXqsAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>After a furhher 5 epocks of training the unfrozen model, close examination of the gradcam image above shows an even greater focus on the the important distinguishing features of the dog or cat.</p>
-<p>Now lets try something different and refreeze the model layers followed by retraining at a higher learning rate.</p>
+<p>After a further 5 epochs of training the unfrozen model, close examination of the gradcam image above shows an even greater localization of the distinguishing features of the dog or cat.</p>
+<p>Now lets try something different and train the model again, bit this time at a much higher learning rate.</p>
 
 </div>
 </div>
@@ -35155,7 +35163,7 @@ cBQEQRAEQRAEQRAEQRB8oTA4CoIgCIIgCIIgCIIgCL7Q/wcwxxOF705VOQAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As expected, the high learning rate hinders rather than helps gradient descent and reduces model performance. The rise in error rate corresponds to gradcam images that are more noisy and less focused on areas of interest.</p>
+<p>As expected, the high learning rate hinders rather than helps gradient descent and reduces model performance, likely wiping out all the pretrained weights. The rise in error rate corresponds to gradcam images that are more noisy and less focused on areas of interest. This model is no longer training effectively.</p>
 
 </div>
 </div>

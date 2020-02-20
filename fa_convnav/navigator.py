@@ -143,7 +143,9 @@ def cndf_search(df, searchterm, exact=True, show=True):
 
 # Cell
 class ConvNav(CNDF):
-  "Class to view fastai supported CNNs, search and select module(s) and layer(s) for further investigation. Automatically builds a CNDF dataframe from Learner and Learner.summary()"
+  "Builds a CNDF dataframe representation of a CNN model from a fastai `Learner` object and `Learner.summary()`. \
+  Provides methods to view, search and select model layers and modules for further investigation."
+
   def __init__(self, learner, learner_summary):
     super().__init__(learner, learner_summary)
 
@@ -177,7 +179,7 @@ class ConvNav(CNDF):
 
   @property
   def head(self):
-    "Summary info and modules of model head"
+    "View module of model head"
     df = self._cndf.copy()
     df = df[df['Module_name'].str.startswith('1')]
     if not df.empty:
@@ -193,7 +195,7 @@ class ConvNav(CNDF):
 
   @property
   def body(self):
-    "Summary info and modules of model body"
+    "View modules of model body"
     df = self._cndf.copy()
     df = df.loc[df['Module_name'].str.startswith('0')]
     if not df.empty:
@@ -291,19 +293,19 @@ class ConvNav(CNDF):
     return df['lyr_obj'].tolist()
 
   def frozen(self, col='child'):
-    "Displays and returns all frozen child container (default: col='child'), block container (col='block') or layers (col='layer')."
+    "Displays and returns all frozen child container (`col='child'`), block container (`col='block'`) or layers (`col='layer'`)."
     return self.frozen_vs_unfrozen(col, 'All frozen')
 
   def unfrozen(self, col='child'):
-    "Displays and returns all unfrozen child container (default: col='child'), block container (col='block') or layers (col='layer')."
+    "Displays and returns all unfrozen child container (`col='child'`), block container (`col='block'`) or layers (`col='layer'`)."
     return self.frozen_vs_unfrozen(col, 'All unfrozen')
 
   def last_frozen(self, col='child'):
-    "Displays and returns the last frozen child container (default: col='child), block container (col='block') or layer (col='layer) in the model."
+    "Displays and returns the last frozen child container (`col='child'`), block container (`col='block'`) or layer (`col='layer'`)."
     return self.frozen_vs_unfrozen(col, 'Last frozen')
 
   def first_unfrozen(self, col='child'):
-    "Displays and returns the first unfrozen child container (default: col='child), block container (col='block') or layer (col='layer) in the model."
+    "Displays and returns the first unfrozen child container (`col='child'`), block container (`col='block'`) or layer (`col='layer'`)."
     return self.frozen_vs_unfrozen(col, 'First unfrozen')
 
 
@@ -331,17 +333,17 @@ class ConvNav(CNDF):
 
   @property
   def children(self):
-    "Display and return child elements (equivelent to fastai learner.model.children())"
+    "Display and return child container modules (equivelent to fastai `Learner.model.children()`)"
     return self.structs('Container_child')
 
   @property
   def blocks(self):
-    "Display and return block elements"
+    "Display and return block container modules"
     return self.structs('Container_block')
 
 
   def find_conv(self, req='all', num=1, in_main=False):
-    "Finds the first (req=First) or last (req=last) num Conv2d layers in the model body."
+    "Finds the first (`req=First`) or last (`req=last`) `num` Conv2d layers in the model body. Set `in_main=True` to return conv layers from the main body of the model only."
 
     valid_reqs = ['all', 'first', 'last']
     assert req.lower() in valid_reqs, f'Invalid request: req must be one of {valid_reqs}'
@@ -366,7 +368,7 @@ class ConvNav(CNDF):
 
 
   def find_block(self, b, layers=True, layers_only=False):
-    "finds, displays and returns container blocks by module name `b`"
+    "Finds, displays and returns container blocks by module name `b`"
 
     #strip preceeding '0.'s from module name so search starts from same point in all models
     while b.startswith('0') or b.startswith('.'):
@@ -392,7 +394,7 @@ class ConvNav(CNDF):
 
 
   def spread(self, req='conv', num=5):
-    "Returns `num` of equally spaced `req` elements over the model."
+    "Returns `num` of equally spaced `req` elements over the model. `req` = 'conv', 'block', or 'child'"
 
     valid_reqs = ['Child', 'Block', 'Layer', 'Conv2d', 'Conv2D', 'Conv']
     req = req.capitalize()
@@ -436,7 +438,7 @@ class ConvNav(CNDF):
 
 # Cell
 def cndf_save(cn, filename, path='', with_modules=False):
-  "Saves a CNDF dataframe of the ConvNav instance `cn` to persistent storage at `path` with `filename` gzip compresseed"
+  "Saves the instance dataframe `cn._cndf` to persistent storage at `path` with `filename` gzip compresseed"
   df = cn._cndf.copy()
   if not with_modules: df = df.iloc[:,:-1]
   with gzip.open(path+filename, "wb") as f:

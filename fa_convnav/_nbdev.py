@@ -4,6 +4,7 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"find_model": "00_core.ipynb",
          "get_row": "00_core.ipynb",
+         "convnav_supported_models": "00_core.ipynb",
          "get_inp_sz": "00_core.ipynb",
          "infos_to_gen": "00_core.ipynb",
          "CNDF": "00_core.ipynb",

@@ -25,7 +25,7 @@ summary: "CNN viewer and element selector."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>fa_convnav works with the fastai deep learning library, allowing users to explore convolutional neural network (CNN)  structure and composition as well as select modules and layers for further investigation using pytorch hooks and fastai callbacks.</p>
+<p>fa_convnav works with the fastai deep learning library, allowing users to explore convolutional neural network (CNN)  structure and composition as well as select modules and layers for further investigation using hooks and callbacks.</p>
 <p>fa_convnav provides native support for the following types of CNN model:</p>
 <ul>
 <li>VGG</li>
@@ -36,13 +36,15 @@ summary: "CNN viewer and element selector."
 <li>xresnets</li>
 </ul>
 <p>With minor ammendments to the code, fa_convnav can be adapted for use with other CNN architectures and custom CNN models.</p>
-<p><strong>A note about naming.</strong> Naming conventions for the elements of a CNN is confusing. Here we adhere as closely as possible to that used by pytorch and fastai.</p>
+<p><strong>A note about naming.</strong> Naming conventions for the elements of a CNN is confusing with many terms such as layer nd module used interchangeably. Here use the following set of definitions to describe the lements of a CNN.</p>
 <ul>
-<li><strong>'layers'</strong> are the information processing units of the model, e.g. <code>conv2d</code>, <code>batchnorm2d</code>, <code>maxpool</code>, <code>relu</code> etc</li>
-<li><strong>'modules'</strong> may be layers but also container elements such as <code>cnn.sequential</code> or custom container elements such as resnet <code>BasicBlocks</code> or densenet <code>_DenseLayers</code>. Container modules can also contain the entire head or body of the model, or even the entire model.</li>
-<li><strong>'container'</strong> elements do not do any information processing themselves but group CNN submodules and layers into functional units.</li>
+<li><strong>'layers'</strong> are the information processing units of the model, they can be single elemenst (e.g. <code>conv2d</code>, <code>batchnorm2d</code>, <code>maxpool</code>, <code>relu</code> etc) or for larger models with deeply nested sequences, a short sequence of elements wrapped in a container element. </li>
+<li><strong>'modules'</strong> may be layers but also container elements wrapping a sequence of layers such as <code>cnn.sequential</code>.</li>
+<li><strong>'container'</strong> elements do not do any information processing themselves but group sequences of CNN layers or modules togather into functional units.</li>
 <li><strong>'elements'</strong> are all the elements that make up the CNN, both container and non-container,  layers and modules.</li>
-<li><strong>'divisions'</strong> refers to the head or body of a transfer learning model</li>
+<li><strong>'divisions'</strong> refer to the head and body of a transfer learning model</li>
+<li><strong>'child containers'</strong> the first tier of nested modules. As far as possble these match the modules returned with the fastai <code>model.named_children()</code> method. </li>
+<li><strong>'Blocks'</strong> are the second tier of nested modules usually containing a repeating sequence of layers and given a specific name such as <code>BasicBlock</code> or <code>_DenseBlock</code></li>
 <li><strong>'model'</strong> refers to a pre-trained architecture imported from the fastai library or custom architecture with a body and head structure. </li>
 <li><strong>architecture</strong> is an untrained neural network</li>
 </ul>
@@ -72,7 +74,7 @@ summary: "CNN viewer and element selector."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>First create deep learning vision project using a pretrained model downloaded from fastai, a pretrained model with custom head or a custom pytorch model. Creating a fastai2 vision project using a CNN and transfer learning is described in the <a href="https://dev.fast.ai/">fastai documentation</a> and examples are given here in examples00.ipynb and examples 01.ipynb.</p>
+<p>First create a deep learning vision project using fastai2 and one of the pretrained models supported by fa_convnav (see above or run <code>supported_models()</code> in a notebook cell). All the transfer learning models that come ready to download and use with the fastai2 library are supported by fa_convnav.  Creating a fastai2 vision project using a CNN and transfer learning is described in the <a href="https://dev.fast.ai/">fastai documentation</a>. To quickly get started and play around with fa_convnav see the example notebooks, examples00.ipynb and examples 01.ipynb.</p>
 
 </div>
 </div>
@@ -93,10 +95,10 @@ summary: "CNN viewer and element selector."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>With a fastai Learner object <code>Learner</code>, create a ConvNav instance:</p>
+<p>With a fastai Learner object <code>Learner</code>, create a ConvNav instance <code>cn</code>:</p>
 
 <pre><code>cn = ConvNav(learner, Learner.summary())</code></pre>
-<p>The model type and name are automatically detected and a dataframe of CNN model information is built, called a CNDF dataframe. CNDF dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.</p>
+<p>The model type and name are automatically detected and a dataframe of CNN model information built. We will call this dataframe as a CNDF dataframe. CNDF dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.</p>
 <p>View a CNDF dataframe:</p>
 
 <pre><code>cn.view()</code></pre>
@@ -138,7 +140,7 @@ summary: "CNN viewer and element selector."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>See the example notebooks, examples00.ipynb and examples01.ipynb, and for further description and code of how to use fa_convnav</p>
+<p>Example notebooks examples00.ipynb and examples01.ipynb contain working examples of fa_convnav being used with a resnet model. Example notebooks can be downloaded and run in any notebook environment.</p>
 
 </div>
 </div>
