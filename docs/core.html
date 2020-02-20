@@ -403,24 +403,25 @@ summary: "Core functionality for fa_convnav"
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_layer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
-  <span class="s2">&quot;Returns layer `idx` of CNDF dataframe `df`, `None` if `idx` indexes a container element and an exception if `idx` is invalid.&quot;</span> 
-  <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span> 
-    <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-      <span class="n">m</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-      <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;Layer_description&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;. . ContainerConvLayer&#39;</span><span class="p">,</span> <span class="s1">&#39;ContainerSequential&#39;</span><span class="p">}:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-      <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">m</span>
-    <span class="k">else</span><span class="p">:</span> 
-      <span class="k">assert</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;Index out of range.&#39;</span>
-  <span class="k">assert</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;Invalid index&#39;</span>
-</pre></div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
 
-    </div>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="get_layer" class="doc_header"><code>get_layer</code><a href="https://github.com/hallmx/fa_convnav/tree/master/fa_convnav/core.py#L285" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_layer</code>(<strong><code>df</code></strong>, <strong><code>idx</code></strong>)</p>
+</blockquote>
+<p>Returns layer with Index <code>idx</code> from CNDF dataframe <code>df</code> or <code>None</code> if <code>idx</code> indexes a container element and an exception if <code>idx</code> is invalid.</p>
+
+</div>
+
+</div>
+
 </div>
 </div>
 

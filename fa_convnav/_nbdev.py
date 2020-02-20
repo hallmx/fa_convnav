@@ -7,6 +7,7 @@ index = {"find_model": "00_core.ipynb",
          "get_inp_sz": "00_core.ipynb",
          "infos_to_gen": "00_core.ipynb",
          "CNDF": "00_core.ipynb",
+         "get_layer": "00_core.ipynb",
          "cndf_view": "01_navigator.ipynb",
          "add_container_row_info": "01_navigator.ipynb",
          "cndf_search": "01_navigator.ipynb",
@@ -19,20 +20,11 @@ index = {"find_model": "00_core.ipynb",
          "resnet": "02_models.ipynb",
          "densenet": "02_models.ipynb",
          "xresnet": "02_models.ipynb",
-         "models": "02_models.ipynb",
-         "pets": "03_examples00.ipynb",
-         "dls": "03_examples00.ipynb",
-         "dls.show_batch(max_n": "03_examples00.ipynb",
-         "model": "03_examples00.ipynb",
-         "learn": "03_examples00.ipynb",
-         "cn": "03_examples00.ipynb",
-         "cn.view(top": "03_examples00.ipynb",
-         "layers": "03_examples00.ipynb"}
+         "models": "02_models.ipynb"}
 
 modules = ["core.py",
            "navigator.py",
-           "models.py",
-           "examples00.py"]
+           "models.py"]
 
 doc_url = "https://hallmx.github.io/fa_convnav/"
 
