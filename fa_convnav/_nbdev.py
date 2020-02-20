@@ -4,11 +4,12 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"find_model": "00_core.ipynb",
          "get_row": "00_core.ipynb",
-         "convnav_supported_models": "00_core.ipynb",
+         "supported_models": "00_core.ipynb",
          "get_inp_sz": "00_core.ipynb",
          "infos_to_gen": "00_core.ipynb",
          "CNDF": "00_core.ipynb",
          "get_layer": "00_core.ipynb",
+         "convnav_supported_models": "01_navigator.ipynb",
          "cndf_view": "01_navigator.ipynb",
          "add_container_row_info": "01_navigator.ipynb",
          "cndf_search": "01_navigator.ipynb",

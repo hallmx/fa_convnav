@@ -41,7 +41,7 @@ pip install fa_convnav
 
 
 
-First create a deep learning vision project using fastai2 and one of the pretrained models supported by fa_convnav (see above or run `supported_models()` in a notebook cell). All the transfer learning models that come ready to download and use with the fastai2 library are supported by fa_convnav.  Creating a fastai2 vision project using a CNN and transfer learning is described in the [fastai documentation](https://dev.fast.ai/). To quickly get started and play around with fa_convnav see the example notebooks, examples00.ipynb and examples 01.ipynb. 
+First create a deep learning vision project using fastai2 and one of the pretrained models supported by fa_convnav (see above or run `supported_models()` in a notebook cell). All the transfer learning models that come ready to download and use with the fastai2 library are supported by fa_convnav.  Creating a fastai2 vision project using a CNN and transfer learning is described in the [fastai documentation](https://dev.fast.ai/). To quickly get started and play around with fa_convnav see the example notebooks, `examples00.ipynb` and `examples 01.ipynb`. 
 
 ### Create and view a ConvNav dataframe.
 
@@ -55,7 +55,7 @@ With a fastai Learner object `Learner`, create a ConvNav instance `cn`:
 cn = ConvNav(learner, Learner.summary())
 ```
 
-The model type and name are automatically detected and a dataframe of CNN model information built. We will call this dataframe as a CNDF dataframe. CNDF dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.
+The model type and name are automatically detected and a dataframe of CNN model information built. We will call this dataframe a CNDF dataframe. CNDF dataframes combine an intuitive representation of the model architecture along with the description, class, output dimensions, parameters and frozen/unfrozen status of each module and layer.
 
 View a CNDF dataframe:
 
@@ -71,7 +71,7 @@ cn() *prints just the first ten rows
 
 ### Searching a CNDF dataframe and selecting model elements
 
-CNDF dataframes can be viewed whole to see the overall structure of the model as well as subsetted and/or searched for any combination of model element(s). Selected elements are returned with associated module objects for use with Pytorch hooks and fastai callbacks. CNDF dataframes can be saved and loaded from to persistent storage. 
+CNDF dataframes can be viewed whole to see the overall structure of the model as well as subsetted and/or searched for any combination of model element(s). Selected elements are returned with associated module objects for use with hooks and callbacks. CNDF dataframes can also be saved to persistent storage. 
 
 For example:
 
@@ -90,7 +90,7 @@ Searches for, displays and returns the module object with module_name '0.0.2'.
 ```
 cn.spread(req='conv', num=8)
 ```
-Searches for, displays and returns the module objects for 8 con2d layers equally spaced from start to end of the model.
+Searches for, displays and returns the module objects for eight `Conv2d` layers equally spaced from start to end of the model.
 
 
 
