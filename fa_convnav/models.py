@@ -3,7 +3,7 @@
 __all__ = ['vgg', 'alexnet', 'squeezenet', 'resnet', 'densenet', 'xresnet', 'models']
 
 # Cell
-# Supported pretrained models (name, num layers)
+# supported pretrained models (name, num layers)
 
 vgg = [ ('vgg11_bn', 44),
         ('vgg13_bn', 50),
@@ -40,7 +40,7 @@ xresnet = [ ('xresnet101', 541),
 
 
 # Cell
-# List of dicts containing model type and list of (model name, num layer) tuples
+# list of dicts containing model type and list of (model name, num layer) tuples
 models = [{'vgg': vgg},
           {'alexnet': alexnet},
           {'squeezenet': squeezenet},

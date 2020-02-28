@@ -110,7 +110,7 @@ or
 
 ## Docs
 
-This project, it's github repo and documentation were all built using the fastai nbdev literate programming environment for Jupyter Notebooks. Find out more about nbdev and use it in your own project [here](https://github.com/fastai/nbdev)
+This project, it's github repo and documentation were all built using the fastai nbdev literate programming environment for Jupyter Notebooks. Find out more about nbdev and how to use it in your own project [here](https://github.com/fastai/nbdev)
 
 ## Contributing
 
@@ -118,5 +118,8 @@ After you clone this repository, please run nbdev_install_git_hooks in your term
 
 Before submitting a PR, check that the local library and notebooks match. The script nbdev_diff_nbs can let you know if there is a difference between the local library and the notebooks.
 
-If you made a change to the notebooks in one of the exported cells, you can export it to the library with nbdev_build_lib or make fastai2.
-If you made a change to the library, you can export it back to the notebooks with nbdev_update_lib.
+
+## Copyright
+
+
+Copyright 2020 onwards, Mathew Hall, Licensed under the Apache License, Version 2.0 (the "License"); you may not use this project's files except in compliance with the License. A copy of the License is provided in the LICENSE file in this repository
